@@ -4,34 +4,20 @@ Vue.use(VueRouter);
 
 
 import Home from "../components/views/Home";
+import Detailed from "../components/views/MovieDetails";
+import Account from "../components/views/Account";
 
 
 const routes = [
     {
         path: '/',
         name: 'index',
-        component: Vue.component("welcome-component",Welcome),
-    },
-    {
-        path: '/home',
-        name: 'home',
         component: Vue.component("home-component", Home),
-        meta: {
-            requiresAuth: true
-        }
     },
     {
-        path: '/about',
-        name: 'about',
-        component: Vue.component("about-component",About),
-        meta: {
-            requiresAuth: true
-        }
-    },
-    {
-        path: '/archive',
-        name: 'archive',
-        component: Vue.component("archive-component",Archive),
+        path: '/movie-details',
+        name: 'movie-details',
+        component: Vue.component("detailed-component",Detailed),
         meta: {
             requiresAuth: true
         }
