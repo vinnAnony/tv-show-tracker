@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
         if (localStorage.getItem('jwToken') == null) {
             next()
         } else {
-            next({ name: 'home' })
+            next({ name: '/' })
         }
     } else {
         next()
