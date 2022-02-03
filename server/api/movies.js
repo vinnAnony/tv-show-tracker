@@ -16,6 +16,10 @@ router.route('/movies/:id')
 
     .delete(moviesController.delete);
 
+router.route('/movies-details/:id')
+
+    .get(moviesController.fetchMovieDetails);
+
 //add search
 
 module.exports = router

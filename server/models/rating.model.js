@@ -24,8 +24,7 @@ module.exports = (sequelize) => {
             type: DataTypes.FLOAT
         },
         poster_url: {
-            type: DataTypes.STRING,
-            length: 600
+            type: DataTypes.STRING
         }
     });
 

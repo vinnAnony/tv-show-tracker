@@ -1,33 +1,24 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
 module.exports = (sequelize) => {
-    const Movie = sequelize.define("movie", {
+    const Actor = sequelize.define("actor", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false
         },
-        movie_name: {
+        actor_name: {
             type: DataTypes.STRING
         },
-        genre_id: {
+        movie_id: {
             type: DataTypes.INTEGER
         },
-        movie_type_id: {
-            type: DataTypes.INTEGER
-        },
-        description: {
-            type: DataTypes.STRING
-        },
-        rating: {
-            type: DataTypes.FLOAT
-        },
-        poster_url: {
+        profile_url: {
             type: DataTypes.STRING,
             length: 600
         }
     });
 
-    return Movie;
+    return Actor;
 };
