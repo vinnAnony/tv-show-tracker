@@ -10,11 +10,15 @@ router.route('/subscriptions')
 
 router.route('/subscriptions/:id')
 
-    .get(subscriptionsController.findOne)
-
     .put(subscriptionsController.update)
 
     .delete(subscriptionsController.delete);
+
+router.route('/user-subscriptions/:id')
+    .get(subscriptionsController.findUserSubscriptions);
+
+router.route('/subscriptions-by-movie/:id')
+    .get(subscriptionsController.findMovieSubscriptions);
 
 //add search
 

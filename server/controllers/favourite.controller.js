@@ -1,5 +1,5 @@
 const db = require("../models");
-const Subscription = db.subscriptions;
+const Favourite = db.favourites;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
 
@@ -15,15 +15,15 @@ exports.create = [
         return res.status(400).json({errors: errors.array()});
     }
 
-    const movie = {
+    const favourite = {
         movie_id: req.body.movie_id,
         user_id: req.body.user_id,
     };
 
-    Subscription.create(movie)
+    Favourite.create(favourite)
         .then(data => {
             res.status(200).json({
-                success: true, message: 'subscription added', movie: data
+                success: true, message: 'Favourite added', movie: data
             })
         })
         .catch(err => {
@@ -33,22 +33,22 @@ exports.create = [
 
 exports.findAll = (req, res) => {
 
-    Subscription.findAll()
+    Favourite.findAll()
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving subscriptions."
+                    err.message || "Some error occurred while retrieving favourites."
             });
         });
 };
 
-exports.findUserSubscriptions = (req, res) => {
+exports.findUserFavourites = (req, res) => {
     const id = req.params.id;
 
-    Subscription.findAll({
+    Favourite.findAll({
         where: { user_id: id }
     })
         .then(data => {
@@ -56,21 +56,21 @@ exports.findUserSubscriptions = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find subscription.`
+                    message: `Cannot find favourite.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving subscription"
+                message: "Error retrieving favourite"
             });
         });
 };
 
-exports.findMovieSubscriptions = (req, res) => {
+exports.findMovieFavourites = (req, res) => {
     const id = req.params.id;
 
-    Subscription.findAll({
+    Favourite.findAll({
         where: { movie_id: id }
     })
         .then(data => {
@@ -78,13 +78,13 @@ exports.findMovieSubscriptions = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find subscription.`
+                    message: `Cannot find favourite.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving subscription"
+                message: "Error retrieving favourite"
             });
         });
 };
@@ -92,23 +92,23 @@ exports.findMovieSubscriptions = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Subscription.update(req.body, {
+    Favourite.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Subscription was updated successfully."
+                    message: "Favourite was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update subscription with id=${id}.`
+                    message: `Cannot update favourite with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating subscription with id=" + id
+                message: "Error updating favourite with id=" + id
             });
         });
 };
@@ -116,23 +116,23 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Subscription.destroy({
+    Favourite.destroy({
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Subscription deleted successfully!"
+                    message: "Favourite deleted successfully!"
                 });
             } else {
                 res.send({
-                    message: `Cannot delete subscription with id=${id}. Maybe subscription was not found!`
+                    message: `Cannot delete favourite with id=${id}. Maybe favourite was not found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete subscription => " + err.message
+                message: "Could not delete favourite => " + err.message
             });
         });
 };

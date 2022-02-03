@@ -22,5 +22,6 @@ db.sequelize = sequelize;
 db.movies = require("./movie.model.js")(sequelize, Sequelize);
 db.users = require("./user.model.js")(sequelize, Sequelize);
 db.subscriptions = require("./subscription.model.js")(sequelize, Sequelize);
+db.favourites = require("./favourite.model.js")(sequelize, Sequelize);
 
 module.exports = db;

@@ -26,7 +26,9 @@ app.listen(process.env.PORT || port, function() {
 const auth = require('./api/auth/users');
 const movies = require('./api/movies');
 const subscriptions = require('./api/subscriptions');
+const favourites = require('./api/favourites');
 
 app.use('/api/auth', auth);
 app.use('/api', movies);
 app.use('/api', subscriptions);
+app.use('/api', favourites);
