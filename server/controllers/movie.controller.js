@@ -7,6 +7,7 @@ const {body, validationResult} = require('express-validator');
 exports.create = [
     body('movie_name').isLength({min: 1}).withMessage('Movie name required'),
     body('genre_id').isLength({min: 1}).withMessage('Genre required'),
+    body('movie_type_id').isLength({min: 1}).withMessage('Movie type required'),
     body('description').isLength({min: 20}).withMessage('Name required'),
     body('rating').isNumeric().withMessage('Rating must be a numeric'),
     body('poster_url').isLength({min:1}).withMessage('Poster image required'),
@@ -21,6 +22,7 @@ exports.create = [
     const movie = {
         movie_name: req.body.movie_name,
         genre_id: req.body.genre_id,
+        movie_type_id: req.body.movie_type_id,
         description: req.body.description,
         rating: req.body.rating,
         poster_url: req.body.poster_url,

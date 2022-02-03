@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
         genre_id: {
             type: DataTypes.INTEGER
         },
+        movie_type_id: {
+            type: DataTypes.INTEGER
+        },
         description: {
             type: DataTypes.STRING
         },
