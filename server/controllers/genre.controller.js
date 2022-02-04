@@ -1,12 +1,11 @@
 const db = require("../models");
-const Favourite = db.favourites;
+const Genre = db.genres;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
 
 
 exports.create = [
-    body('movie_id').isLength({min: 1}).withMessage('Movie required'),
-    body('user_id').isLength({min: 1}).withMessage('User required'),
+    body('genre_name').isLength({min: 1}).withMessage('Genre name required'),
     (req, res) => {
 
     const errors = validationResult(req);
@@ -15,15 +14,14 @@ exports.create = [
         return res.status(400).json({errors: errors.array()});
     }
 
-    const favourite = {
-        movie_id: req.body.movie_id,
-        user_id: req.body.user_id,
+    const genre = {
+        genre_name: req.body.genre_name,
     };
 
-    Favourite.create(favourite)
+    Genre.create(genre)
         .then(data => {
             res.status(200).json({
-                success: true, message: 'Favourite added', movie: data
+                success: true, message: 'Genre added', movie: data
             })
         })
         .catch(err => {
@@ -33,58 +31,34 @@ exports.create = [
 
 exports.findAll = (req, res) => {
 
-    Favourite.findAll()
+    Genre.findAll()
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving favourites."
+                    err.message || "Some error occurred while retrieving genres."
             });
         });
 };
 
-exports.findUserFavourites = (req, res) => {
+exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Favourite.findAll({
-        where: { user_id: id }
-    })
+    Genre.findByPk(id)
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find favourite.`
+                    message: `Cannot find genre with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving favourite"
-            });
-        });
-};
-
-exports.findMovieFavourites = (req, res) => {
-    const id = req.params.id;
-
-    Favourite.findAll({
-        where: { movie_id: id }
-    })
-        .then(data => {
-            if (data) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find favourite.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error retrieving favourite"
+                message: "Error retrieving genre with id=" + id
             });
         });
 };
@@ -92,23 +66,23 @@ exports.findMovieFavourites = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Favourite.update(req.body, {
+    Genre.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Favourite was updated successfully."
+                    message: "Genre was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update favourite with id=${id}.`
+                    message: `Cannot update genre with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating favourite with id=" + id
+                message: "Error updating genre with id=" + id
             });
         });
 };
@@ -116,23 +90,23 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Favourite.destroy({
+    Genre.destroy({
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Favourite deleted successfully!"
+                    message: "Genre deleted successfully!"
                 });
             } else {
                 res.send({
-                    message: `Cannot delete favourite with id=${id}. Maybe favourite was not found!`
+                    message: `Cannot delete genre with id=${id}. Maybe genre was not found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete favourite => " + err.message
+                message: "Could not delete genre => " + err.message
             });
         });
 };

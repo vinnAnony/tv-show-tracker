@@ -1,24 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-const subscriptionsController = require("../controllers/subscription.controller");
+const ratingsController = require("../controllers/rating.controller");
 
-router.route('/subscriptions')
-    .post(subscriptionsController.create)
+router.route('/ratings')
+    .post(ratingsController.create)
 
-    .get(subscriptionsController.findAll);
+    .get(ratingsController.findAll);
 
-router.route('/subscriptions/:id')
+router.route('/ratings/:id')
 
-    .put(subscriptionsController.update)
+    .get(ratingsController.findOne)
 
-    .delete(subscriptionsController.delete);
+    .put(ratingsController.update)
 
-router.route('/user-subscriptions/:id')
-    .get(subscriptionsController.findUserSubscriptions);
-
-router.route('/subscriptions-by-movie/:id')
-    .get(subscriptionsController.findMovieSubscriptions);
+    .delete(ratingsController.delete);
 
 //add search
 

@@ -2,7 +2,10 @@ const db = require("../models");
 const Movie = db.movies;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
-
+const Actor = db.actors;
+const Comment = db.comments;
+const Genre = db.genres;
+const Rating = db.ratings;
 
 exports.create = [
     body('movie_name').isLength({min: 1}).withMessage('Movie name required'),
@@ -77,7 +80,12 @@ exports.fetchMovieDetails = (req, res) => {
     const id = req.params.id;
 
     Movie.findAll({
-        where: {}
+        where: {
+            id:id
+        },
+        include:[
+            {'model':Genre},
+        ]
     })
         .then(data => {
             if (data) {

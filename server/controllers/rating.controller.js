@@ -1,16 +1,13 @@
 const db = require("../models");
-const Movie = db.movies;
+const Rating = db.ratings;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
 
 
 exports.create = [
-    body('movie_name').isLength({min: 1}).withMessage('Movie name required'),
-    body('genre_id').isLength({min: 1}).withMessage('Genre required'),
-    body('movie_type_id').isLength({min: 1}).withMessage('Movie type required'),
-    body('description').isLength({min: 20}).withMessage('Name required'),
-    body('rating').isNumeric().withMessage('Rating must be a numeric'),
-    body('poster_url').isLength({min:1}).withMessage('Poster image required'),
+    body('movie_id').isLength({min: 1}).withMessage('Movie id required'),
+    body('rating').isLength({min: 1}).withMessage('rating required'),
+    body('user_id').isLength({min: 1}).withMessage('User id required'),
     (req, res) => {
 
     const errors = validationResult(req);
@@ -19,19 +16,16 @@ exports.create = [
         return res.status(400).json({errors: errors.array()});
     }
 
-    const movie = {
-        movie_name: req.body.movie_name,
-        genre_id: req.body.genre_id,
-        movie_type_id: req.body.movie_type_id,
-        description: req.body.description,
+    const rating = {
+        movie_id: req.body.movie_id,
         rating: req.body.rating,
-        poster_url: req.body.poster_url,
+        user_id: req.body.user_id,
     };
 
-    Movie.create(movie)
+    Rating.create(rating)
         .then(data => {
             res.status(200).json({
-                success: true, message: 'movie added', movie: data
+                success: true, message: 'Rating added', rating: data
             })
         })
         .catch(err => {
@@ -41,14 +35,14 @@ exports.create = [
 
 exports.findAll = (req, res) => {
 
-    Movie.findAll()
+    Rating.findAll()
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving movies."
+                    err.message || "Some error occurred while retrieving ratings."
             });
         });
 };
@@ -56,41 +50,19 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Movie.findByPk(id)
+    Rating.findByPk(id)
         .then(data => {
             if (data) {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find Movie with id=${id}.`
+                    message: `Cannot find rating with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving movie with id=" + id
-            });
-        });
-};
-
-exports.fetchMovieDetails = (req, res) => {
-    const id = req.params.id;
-
-    Movie.findAll({
-        where: {}
-    })
-        .then(data => {
-            if (data) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find Movie with id=${id}.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error retrieving movie with id=" + id
+                message: "Error retrieving rating with id=" + id
             });
         });
 };
@@ -98,23 +70,23 @@ exports.fetchMovieDetails = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    Movie.update(req.body, {
+    Rating.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Movie was updated successfully."
+                    message: "Rating was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update Movie with id=${id}.`
+                    message: `Cannot update Rating with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Movie with id=" + id
+                message: "Error updating Rating with id=" + id
             });
         });
 };
@@ -122,23 +94,23 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Movie.destroy({
+    Rating.destroy({
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Movie deleted successfully!"
+                    message: "Rating deleted successfully!"
                 });
             } else {
                 res.send({
-                    message: `Cannot delete movie with id=${id}. Maybe movie was not found!`
+                    message: `Cannot delete rating with id=${id}. Maybe rating was not found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete movie with id=" + id
+                message: "Could not delete rating with id=" + id
             });
         });
 };

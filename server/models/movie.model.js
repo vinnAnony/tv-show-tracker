@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-
+const Genre = require("../models/genre.model");
+// const db = require("../models");
+// const Genre = db.genres;
 module.exports = (sequelize) => {
     const Movie = sequelize.define("movie", {
         id: {
@@ -28,6 +30,7 @@ module.exports = (sequelize) => {
             length: 600
         }
     });
-
+    //Movie.belongsTo(Genre, {foreignKey:'genre_id'});
+    // Genre.hasOne(Movie, {foreignKey:'user_id'});
     return Movie;
 };
