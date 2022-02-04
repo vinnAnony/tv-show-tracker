@@ -28,9 +28,15 @@ const movies = require('./api/movies');
 const subscriptions = require('./api/subscriptions');
 const favourites = require('./api/favourites');
 const actors = require('./api/actors');
+const genres = require('./api/genres');
+const comments = require('./api/comments');
+const ratings = require('./api/ratings');
 
 app.use('/api/auth', auth);
 app.use('/api', movies);
 app.use('/api', subscriptions);
 app.use('/api', favourites);
 app.use('/api', actors);
+app.use('/api', genres);
+app.use('/api', comments);
+app.use('/api', ratings);
