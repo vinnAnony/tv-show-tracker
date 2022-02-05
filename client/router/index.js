@@ -5,14 +5,24 @@ Vue.use(VueRouter);
 
 import Home from "../components/views/Home";
 import Detailed from "../components/views/MovieDetails";
-import Account from "../components/views/Account";
+import Account from "../components/auth/Account";
+import Dashboard from "../components/admin/Dashboard";
 
 
 const routes = [
     {
         path: '/',
-        name: 'index',
+        alias: '/home',
+        name: 'home',
         component: Vue.component("home-component", Home),
+    },
+    {
+        path: '/account',
+        name: 'account',
+        component: Vue.component("account-component",Account),
+        meta: {
+            guest: true
+        }
     },
     {
         path: '/movie-details',
@@ -23,11 +33,11 @@ const routes = [
         }
     },
     {
-        path: '/account',
-        name: 'account',
-        component: Vue.component("account-component",Account),
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Vue.component("dashboard-component",Dashboard),
         meta: {
-            guest: true
+            requiresAuth: true
         }
     },
     {

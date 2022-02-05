@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import Header from "./layouts/Header";
+    import Header from "./ui/Header";
     export default {
         name: "App",
         components: {Header}
