@@ -4,6 +4,7 @@ const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require('uuid');
 
 
 exports.register = [
@@ -59,18 +60,30 @@ exports.login = [
                 if (data) {
                     let isValidated = bcrypt.compareSync(logPassword, data.password);
                     if (isValidated){
-                        res.send({
+                        let user = {
+                            id: data.id,
+                            name: data.full_name,
+                            username: data.user_name,
+                            email: data.email,
+                        };
+                        const accessToken = jwt.sign({user}, uuidv4());
+                        res.status(200).json({
                             success: true,
-                            message: `Successful login`
-                        });
+                            message: `Successful login`,
+                            accessToken: accessToken,
+                            user: user
+                        })
                     }
                     else {
-                        res.send({
+
+                        res.status(200).json({
+                            success: false,
                             message: `Wrong credentials`
                         });
                     }
                 } else {
-                    res.send({
+                    res.status(200).json({
+                        success: false,
                         message: `Account does not exist.`
                     });
                 }
