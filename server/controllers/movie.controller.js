@@ -4,8 +4,10 @@ const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
 const sequelize = require("../config/database");
 const Genre = require("../models/genre.model.js")(sequelize, db.Sequelize);
-const Actor = require("../models/actor.model.js")(sequelize, db.Sequelize);
+const MovieActor = require("../models/movie_actors.model")(sequelize, db.Sequelize);
+const Actor = require("../models/actor.model")(sequelize, db.Sequelize);
 const Comment = require("../models/comment.model.js")(sequelize, db.Sequelize);
+const Rating = require("../models/rating.model")(sequelize, db.Sequelize);
 
 
 exports.create = [
@@ -87,6 +89,15 @@ exports.fetchMovieDetails = (req, res) => {
         include:[
             {model: Genre, required: true},
             {model: Comment, required: true},
+            {model: Rating, required: true},
+            {
+                model: MovieActor,
+                include: [
+                    {
+                        model: Actor,
+                    },
+                ]
+            },
         ]
     })
         .then(data => {

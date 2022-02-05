@@ -4,6 +4,8 @@ const sequelize = require("../config/database");
 const Genre = require("../models/genre.model.js")(sequelize, Sequelize);
 const Comment = require("../models/comment.model")(sequelize, Sequelize);
 const Rating = require("../models/rating.model")(sequelize, Sequelize);
+const MovieActor = require("../models/movie_actors.model")(sequelize, Sequelize);
+const Actor = require("../models/actor.model")(sequelize, Sequelize);
 
 module.exports = (sequelize) => {
     const Movie = sequelize.define("movie", {
@@ -36,7 +38,11 @@ module.exports = (sequelize) => {
     Movie.belongsTo(Genre, {foreignKey:'genre_id'});
     Movie.hasMany(Comment, {foreignKey:'movie_id'});
     Movie.hasMany(Rating, {foreignKey:'movie_id'});
-    //Movie.hasMany(Actor, {foreignKey:'genre_id'});
 
+    //Movie actors m-m relationship
+    Movie.belongsToMany(Actor, { through: MovieActor });
+    MovieActor.belongsTo(Movie);
+    Movie.hasMany(MovieActor, {foreignKey:'movie_id'});
+    Actor.belongsToMany(Movie, { through: MovieActor });
     return Movie;
 };

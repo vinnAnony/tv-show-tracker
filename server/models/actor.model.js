@@ -1,5 +1,8 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
+const sequelize = require("../config/database");
+//const MovieActor = require("../models/movie_actors.model")(sequelize, Sequelize);
+
 module.exports = (sequelize) => {
     const Actor = sequelize.define("actor", {
         id: {
@@ -16,5 +19,7 @@ module.exports = (sequelize) => {
         }
     });
 
+    // Actor.hasMany(MovieActor, {foreignKey:'actor_id'});
+    // MovieActor.belongsTo(Actor);
     return Actor;
 };
