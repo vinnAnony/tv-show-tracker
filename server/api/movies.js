@@ -17,8 +17,10 @@ router.route('/movies/:id')
     .delete(moviesController.delete);
 
 router.route('/movies-details/:id')
-
     .get(moviesController.fetchMovieDetails);
+
+router.route('/movie-search/')
+    .get(moviesController.searchMovie);
 
 //add search
 

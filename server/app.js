@@ -11,10 +11,7 @@ app.use(bodyParser.json());
 
 const db = require("./models");
 db.sequelize.sync();
-
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log("Drop and re-sync db.");
-// });
+//db.sequelize.sync({force: true});
 
 
 app.listen(process.env.PORT || port, function() {
@@ -31,6 +28,7 @@ const actors = require('./api/actors');
 const genres = require('./api/genres');
 const comments = require('./api/comments');
 const ratings = require('./api/ratings');
+const notifications = require('./api/notification');
 
 app.use('/api/auth', auth);
 app.use('/api', movies);
@@ -40,3 +38,4 @@ app.use('/api', actors);
 app.use('/api', genres);
 app.use('/api', comments);
 app.use('/api', ratings);
+app.use('/api', notifications);

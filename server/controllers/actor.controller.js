@@ -6,7 +6,6 @@ const {body, validationResult} = require('express-validator');
 
 exports.create = [
     body('actor_name').isLength({min: 1}).withMessage('Actor required'),
-    body('movie_id').isLength({min: 1}).withMessage('Movie required'),
     body('profile_url').isLength({min: 1}).withMessage('Profile image required'),
     (req, res) => {
 

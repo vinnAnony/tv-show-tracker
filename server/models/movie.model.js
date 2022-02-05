@@ -1,7 +1,10 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const Genre = require("../models/genre.model");
-// const db = require("../models");
-// const Genre = db.genres;
+
+const sequelize = require("../config/database");
+const Genre = require("../models/genre.model.js")(sequelize, Sequelize);
+const Comment = require("../models/comment.model")(sequelize, Sequelize);
+const Rating = require("../models/rating.model")(sequelize, Sequelize);
+
 module.exports = (sequelize) => {
     const Movie = sequelize.define("movie", {
         id: {
@@ -26,11 +29,14 @@ module.exports = (sequelize) => {
             type: DataTypes.FLOAT
         },
         poster_url: {
-            type: DataTypes.STRING,
-            length: 600
+            type: DataTypes.STRING(600),
         }
     });
-    //Movie.belongsTo(Genre, {foreignKey:'genre_id'});
-    // Genre.hasOne(Movie, {foreignKey:'user_id'});
+
+    Movie.belongsTo(Genre, {foreignKey:'genre_id'});
+    Movie.hasMany(Comment, {foreignKey:'movie_id'});
+    Movie.hasMany(Rating, {foreignKey:'movie_id'});
+    //Movie.hasMany(Actor, {foreignKey:'genre_id'});
+
     return Movie;
 };

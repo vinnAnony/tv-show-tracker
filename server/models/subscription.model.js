@@ -1,4 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require("../config/database");
+const User = require("../models/user.model.js")(sequelize, Sequelize);
+const Movie = require("../models/movie.model.js")(sequelize, Sequelize);
 
 module.exports = (sequelize) => {
     const Subscription = sequelize.define("subscription", {
@@ -22,5 +25,7 @@ module.exports = (sequelize) => {
         paranoid: true
     });
 
+    Subscription.belongsTo(User, {foreignKey:'user_id'});
+    Subscription.belongsTo(Movie, {foreignKey:'movie_id'});
     return Subscription;
 };

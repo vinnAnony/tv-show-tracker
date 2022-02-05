@@ -1,4 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require("../config/database");
+const User = require("../models/user.model.js")(sequelize, Sequelize);
+const Movie = require("../models/movie.model.js")(sequelize, Sequelize);
 
 module.exports = (sequelize) => {
     const Favourite = sequelize.define("favourite", {
@@ -21,6 +24,9 @@ module.exports = (sequelize) => {
     },{
         paranoid: true
     });
+
+    Favourite.belongsTo(User, {foreignKey:'user_id'});
+    Favourite.belongsTo(Movie, {foreignKey:'movie_id'});
 
     return Favourite;
 };

@@ -11,12 +11,8 @@ module.exports = (sequelize) => {
         actor_name: {
             type: DataTypes.STRING
         },
-        movie_id: {
-            type: DataTypes.INTEGER
-        },
         profile_url: {
-            type: DataTypes.STRING,
-            length: 600
+            type: DataTypes.STRING(600),
         }
     });
 

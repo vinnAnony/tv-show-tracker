@@ -2,10 +2,11 @@ const db = require("../models");
 const Movie = db.movies;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
-const Actor = db.actors;
-const Comment = db.comments;
-const Genre = db.genres;
-const Rating = db.ratings;
+const sequelize = require("../config/database");
+const Genre = require("../models/genre.model.js")(sequelize, db.Sequelize);
+const Actor = require("../models/actor.model.js")(sequelize, db.Sequelize);
+const Comment = require("../models/comment.model.js")(sequelize, db.Sequelize);
+
 
 exports.create = [
     body('movie_name').isLength({min: 1}).withMessage('Movie name required'),
@@ -84,7 +85,8 @@ exports.fetchMovieDetails = (req, res) => {
             id:id
         },
         include:[
-            {'model':Genre},
+            {model: Genre, required: true},
+            {model: Comment, required: true},
         ]
     })
         .then(data => {
@@ -98,7 +100,7 @@ exports.fetchMovieDetails = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving movie with id=" + id
+                message: "Error retrieving movie with => " + err.message
             });
         });
 };
@@ -151,3 +153,23 @@ exports.delete = (req, res) => {
         });
 };
 
+exports.searchMovie = (req, res) => {
+
+    const keyword = req.query.keyword;
+
+    Movie.findAll(
+        {
+            where: { 'movie_name': { [Op.like]: '%' + keyword + '%' }
+            }
+        }
+    )
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving movies."
+            });
+        });
+};
