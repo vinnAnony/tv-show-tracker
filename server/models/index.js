@@ -20,5 +20,6 @@ db.actors = require("./actor.model.js")(sequelize, Sequelize);
 db.genres = require("./genre.model.js")(sequelize, Sequelize);
 db.comments = require("./comment.model.js")(sequelize, Sequelize);
 db.ratings = require("./rating.model.js")(sequelize, Sequelize);
+db.movie_actors = require("./movie_actors.model.js")(sequelize, Sequelize);
 
 module.exports = db;

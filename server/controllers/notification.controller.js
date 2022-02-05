@@ -21,7 +21,7 @@ exports.sendNotificationToAllSubscribers = (req, res) => {
                 subscriptions = data;
             } else {
                 res.status(404).send({
-                    message: `Cannot find subscriptions with `
+                    message: `Cannot find subscriptions`
                 });
             }
         }).then(() =>{

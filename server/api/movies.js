@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const moviesController = require("../controllers/movie.controller");
+const movieActorController = require("../controllers/movie_actor.controller");
 
 router.route('/movies')
     .post(moviesController.create)
@@ -22,6 +23,8 @@ router.route('/movies-details/:id')
 router.route('/movie-search/')
     .get(moviesController.searchMovie);
 
-//add search
+router.route('/add-actor-to-movie/')
+    .post(movieActorController.create);
 
-module.exports = router
+
+module.exports = router;
