@@ -7,9 +7,9 @@
                         <ul class="hidden md:flex flex-auto space-x-2">
                             <router-link :to="{name:'home'}" class="text-white bg-indigo-600 focus:outline-none cursor-pointer px-3 py-2.5 font-normal text-xs leading-3 shadow-md rounded">
                                 Home</router-link>
-                            <router-link :to="{name:'home'}" class="focus:outline-none text-gray-600 border border-white bg-gray-50 cursor-pointer px-3 py-2.5 font-normal text-xs leading-3 shadow-md rounded">
+                            <router-link :to="{name:'subscriptions'}" class="focus:outline-none text-gray-600 border border-white bg-gray-50 cursor-pointer px-3 py-2.5 font-normal text-xs leading-3 shadow-md rounded">
                                 Subscriptions</router-link>
-                            <router-link :to="{name:'home'}" class="focus:outline-none text-gray-600 border border-white bg-gray-50 cursor-pointer px-3 py-2.5 font-normal text-xs leading-3 shadow-md rounded">
+                            <router-link :to="{name:'favourites'}" class="focus:outline-none text-gray-600 border border-white bg-gray-50 cursor-pointer px-3 py-2.5 font-normal text-xs leading-3 shadow-md rounded">
                                 Favourites</router-link>
                         </ul>
                     </div>
@@ -40,9 +40,9 @@
                         <ul id="list" class="flex flex-col gap-1 w-full mx-2 mx-auto">
                             <router-link :to="{name:'home'}" class="px-4 py-3 text-gray-600 bg-gray-50 border border-gray-50 focus:outline-none focus:bg-gray-100 hover:bg-gray-100 duration-100 cursor-pointer text-xs leading-3 font-normal">
                                 Home</router-link>
-                            <router-link :to="{name:'home'}" class="px-4 py-3 text-gray-600 bg-gray-50 border border-gray-50 focus:outline-none focus:bg-gray-100 hover:bg-gray-100 duration-100 cursor-pointer text-xs leading-3 font-normal">
+                            <router-link :to="{name:'subscriptions'}" class="px-4 py-3 text-gray-600 bg-gray-50 border border-gray-50 focus:outline-none focus:bg-gray-100 hover:bg-gray-100 duration-100 cursor-pointer text-xs leading-3 font-normal">
                                 Subscriptions</router-link>
-                            <router-link :to="{name:'home'}" class="px-4 py-3 text-gray-600 bg-gray-50 border border-gray-50 focus:outline-none focus:bg-gray-100 hover:bg-gray-100 duration-100 cursor-pointer text-xs leading-3 font-normal">
+                            <router-link :to="{name:'favourites'}" class="px-4 py-3 text-gray-600 bg-gray-50 border border-gray-50 focus:outline-none focus:bg-gray-100 hover:bg-gray-100 duration-100 cursor-pointer text-xs leading-3 font-normal">
                                 Favourites</router-link>
                         </ul>
                     </div>

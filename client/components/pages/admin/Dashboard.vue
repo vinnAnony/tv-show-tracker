@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import AdminSidebar from "../ui/AdminSidebar";
+    import AdminSidebar from "../../ui/AdminSidebar";
     export default {
         name: "Dashboard",
         components: {AdminSidebar}

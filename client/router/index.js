@@ -3,10 +3,12 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 
-import Home from "../components/views/Home";
-import Detailed from "../components/views/MovieDetails";
-import Account from "../components/auth/Account";
-import Dashboard from "../components/admin/Dashboard";
+import Home from "../components/pages/Home";
+import Subscriptions from "../components/pages/Subscriptions";
+import Favourites from "../components/pages/Favourites";
+import Detailed from "../components/pages/MovieDetails";
+import Account from "../components/pages/auth/Account";
+import Dashboard from "../components/pages/admin/Dashboard";
 
 
 const routes = [
@@ -22,6 +24,22 @@ const routes = [
         component: Vue.component("account-component",Account),
         meta: {
             guest: true
+        }
+    },
+    {
+        path: '/subscriptions',
+        name: 'subscriptions',
+        component: Vue.component("subscriptions-component",Subscriptions),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/favourites',
+        name: 'favourites',
+        component: Vue.component("favourites-component",Favourites),
+        meta: {
+            requiresAuth: true
         }
     },
     {
