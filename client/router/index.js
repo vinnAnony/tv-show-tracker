@@ -3,61 +3,85 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 
+import Index from "../components/pages/Index";
 import Home from "../components/pages/Home";
 import Subscriptions from "../components/pages/Subscriptions";
 import Favourites from "../components/pages/Favourites";
-import Detailed from "../components/pages/MovieDetails";
+import MovieDetails from "../components/pages/MovieDetails";
 import Account from "../components/pages/auth/Account";
 import Dashboard from "../components/pages/admin/Dashboard";
+
+import Admin from "../components/pages/admin/Admin";
+import AdminMovies from "../components/pages/admin/AdminMovies";
+import AdminAddMovie from "../components/pages/admin/AdminAddMovie";
 
 
 const routes = [
     {
         path: '/',
-        alias: '/home',
-        name: 'home',
-        component: Vue.component("home-component", Home),
+        component: Vue.component("index-component", Index),
+        children: [
+            {
+                path: '',
+                name: 'home',
+                component: Vue.component("home-component", Home),
+            },
+            {
+                path: '/account',
+                name: 'account',
+                component: Vue.component("account-component",Account),
+                meta: {
+                    guest: true
+                }
+            },
+            {
+                path: '/subscriptions',
+                name: 'subscriptions',
+                component: Vue.component("subscriptions-component",Subscriptions),
+                meta: {
+                    requiresAuth: true
+                }
+            },
+            {
+                path: '/favourites',
+                name: 'favourites',
+                component: Vue.component("favourites-component",Favourites),
+                meta: {
+                    requiresAuth: true
+                }
+            },
+            {
+                path: '/movie-details',
+                name: 'movie-details',
+                component: Vue.component("detailed-component",MovieDetails),
+                meta: {
+                    requiresAuth: true
+                }
+            },
+        ]
     },
     {
-        path: '/account',
-        name: 'account',
-        component: Vue.component("account-component",Account),
-        meta: {
-            guest: true
-        }
+        path: '/admin',
+        component: Vue.component("admin-component",Admin),
+        children: [
+            {
+                path: '',
+                name: 'dashboard',
+                component: Vue.component("dashboard-component",Dashboard),
+            },
+            {
+                path: 'movies',
+                name: 'admin-movies',
+                component: Vue.component("admin-movies-component",AdminMovies),
+            },
+            {
+                path: 'add-movie',
+                name: 'admin-add-movie',
+                component: Vue.component("admin-movies-component",AdminAddMovie),
+            },
+        ]
     },
-    {
-        path: '/subscriptions',
-        name: 'subscriptions',
-        component: Vue.component("subscriptions-component",Subscriptions),
-        meta: {
-            requiresAuth: true
-        }
-    },
-    {
-        path: '/favourites',
-        name: 'favourites',
-        component: Vue.component("favourites-component",Favourites),
-        meta: {
-            requiresAuth: true
-        }
-    },
-    {
-        path: '/movie-details',
-        name: 'movie-details',
-        component: Vue.component("detailed-component",Detailed),
-        meta: {
-            requiresAuth: true
-        }
-    },
-    {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Vue.component("dashboard-component",Dashboard),
-        meta: {
-            requiresAuth: true
-        }
-    },
+
     {
         path: '*',
         redirect: '/'
