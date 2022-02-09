@@ -44,19 +44,20 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                            <tr v-for="genre_subscription in genre_subscriptions" :key="genre_subscription.id">
                                 <td class="font-bold border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                    Action
+                                    {{genre_subscription.genre_name}}
                                 </td>
                                 <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    564
+                                    {{genre_subscription.subscriptions.length}}
                                 </td>
                                 <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    65
+                                    -
                                 </td>
                                 <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                     <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
                                         <button
+                                                @click="showModal(genre_subscription.id)"
                                                 class="bg-blue-500 text-white active:bg-blue-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1"
                                                 type="button"
                                                 style="transition:all .15s ease">
@@ -68,7 +69,9 @@
                             </tbody>
                         </table>
                     </div>
-
+                    <sweet-modal ref="notificationModal" v-bind:genre-id="notify_genreId">
+                        <subscribers-notification @close="closeModal" v-bind:genre-id="notify_genreId"/>
+                    </sweet-modal>
                 </div>
             </div>
         </div>
@@ -76,10 +79,34 @@
 </template>
 
 <script>
+    import url from '../../../api/index'
+    import SubscribersNotification from "../../ui/SubscribersNotification";
     export default {
         name: "AdminSubscriptions",
-        created:{
-
+        components: {SubscribersNotification},
+        data(){
+            return{
+                genre_subscriptions:{},
+                notify_genreId:0,
+            }
+        },
+        methods:{
+            showModal(genre_id){
+                this.notify_genreId = genre_id;
+                this.$refs.notificationModal.open()
+            },
+            closeModal(){
+                this.$refs.notificationModal.close();
+            },
+        },
+        beforeMount() {
+            url
+                .get("genre-subscriptions")
+                .then((response)=>
+                {
+                    console.log(response.data);
+                    this.genre_subscriptions = response.data;
+                });
         }
     }
 </script>

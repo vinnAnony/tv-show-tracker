@@ -62,7 +62,7 @@
         computed: {
 
         },
-        created() {
+        beforeMount() {
             //fetch user roles
         },
         methods:{

@@ -191,18 +191,18 @@
                 });
         },
         methods: {
+            showModal(){
+                this.$refs.movieModal.open()
+            },
             closeModal(){
                 this.$refs.movieModal.close();
                 this.isEdit = false;
-                this.movie=null;
+                this.movie={};
             },
             editModal(movie){
                 this.isEdit = true;
                 this.movie = movie;
                 this.showModal();
-            },
-            showModal(){
-                this.$refs.movieModal.open()
             },
             deleteMovie(id) {
                 Vue.swal({
@@ -238,7 +238,6 @@
                 });
             },
             addMovie(movie){
-
                 axios.post("http://localhost:4400/api/movies",movie)
                     .then(response => {
                         if (response.data.success)
