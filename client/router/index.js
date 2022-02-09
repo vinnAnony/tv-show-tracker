@@ -55,6 +55,7 @@ const routes = [
                 path: '/movie-details',
                 name: 'movie-details',
                 component: Vue.component("detailed-component",MovieDetails),
+                props: true,
                 meta: {
                     requiresAuth: true
                 }

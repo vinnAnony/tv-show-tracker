@@ -17,9 +17,9 @@
                         <h1 class=" font-normal text-2xl leading-6 text-gray-800" >Tv Shower</h1>
                     </div>
                     <div class="hidden sm:flex flex-row space-x-4">
-                        <router-link v-if="!authState.loggedIn" :to="{name:'account'}"><button class="rounded-md flex space-x-2 w-24 h-10 font-normal text-sm leading-3 text-indigo-700 bg-white border border-indigo-700 focus:outline-none focus:bg-gray-200 hover:bg-gray-200 duration-150 justify-center items-center" >
+                        <router-link v-if="!authState.loggedIn" :to="{name:'account'}" class="bg-blue-700 md:bg-transparent text-white block pl-3 pr-4 py-2 md:text-blue-700 md:p-0 rounded">
                             Sign Up
-                        </button></router-link>
+                        </router-link>
                         <router-link v-if="!authState.loggedIn" :to="{name:'account'}"><button class="rounded-md flex space-x-2 w-24 h-10 font-normal text-sm leading-3 text-white bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-600 hover:bg-indigo-600 duration-150 justify-center items-center">
                             Sign In
                         </button></router-link>
@@ -34,7 +34,7 @@
                         <img class=" hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/header-3-svg7.svg" alt="cross" />
                     </div>
                 </div>
-
+                <!--      Mobile navigation          -->
                 <div id="MobileNavigation" class="hidden sm:hidden mt-4 mx-auto">
                     <div class="flex flex-col gap-4 mt-4 w-full mx-2 mx-auto">
                         <ul id="list" class="flex flex-col gap-1 w-full mx-2 mx-auto">

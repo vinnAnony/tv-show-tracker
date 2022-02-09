@@ -134,7 +134,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         url.delete(
-                            "auth/users/" + id
+                            "auth/user/" + id
                         )
                             .then(response => {
                                 if (response.data.success)
