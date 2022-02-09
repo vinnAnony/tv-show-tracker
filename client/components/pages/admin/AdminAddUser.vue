@@ -67,12 +67,19 @@
         },
         methods:{
             editUser(user){
-                url.put("api/auth/user/" + user.id,user)
+                url.put("auth/user/" + user.id,user)
                     .then(response => {
                         if (response.data.success)
                         {
-                        this.$emit('close');
-                            console.log(response.data.message);
+                            Vue.swal({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                icon: response.data.success ? 'success' : 'error',
+                                title: response.data.message
+                            });
+                            this.$emit('close');
                         }
                     })
                     .catch(error => {

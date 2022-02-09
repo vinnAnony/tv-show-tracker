@@ -104,7 +104,6 @@
                 .get("genre-subscriptions")
                 .then((response)=>
                 {
-                    console.log(response.data);
                     this.genre_subscriptions = response.data;
                 });
         }

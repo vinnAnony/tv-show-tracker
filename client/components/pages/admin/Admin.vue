@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-gray-100">
         <admin-sidebar/>
         <div class="relative md:ml-64 bg-blueGray-100">
             <admin-nav-bar class="sticky"/>

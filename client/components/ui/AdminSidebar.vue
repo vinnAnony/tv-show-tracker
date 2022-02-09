@@ -42,48 +42,43 @@
                     </div>
                 </div>
 
-<!--                <form class="mt-6 mb-4 md:hidden">-->
-<!--                    <div class="mb-3 pt-0">-->
-<!--                        <input type="text"-->
-<!--                                placeholder="Search"-->
-<!--                                class="border-0 px-3 py-2 h-12 border border-solid  border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"/>-->
-<!--                    </div>-->
-<!--                </form>-->
-
-                <ul class="mx-1 md:flex-col md:min-w-full flex flex-col list-none">
+                <ul class="md:flex-col md:min-w-full flex flex-col list-none">
                     <li class="items-center">
-                        <router-link :to="{name:'dashboard'}" class="text-blueGray-700 hover:text-purple-500 outline outline-offset-2 outline-blue-500 text-xs uppercase py-3 font-bold block">
+                        <router-link :to="{name:'dashboard'}" class="px-2 text-blueGray-700 hover:text-purple-500 outline outline-offset-2 outline-blue-500 text-xs uppercase py-3 font-bold block">
                             <font-awesome-icon icon="tachometer-alt" class="opacity-75 mr-2 text-sm"/>
                             Dashboard
                         </router-link>
                     </li>
                     <li class="items-center">
-                        <router-link :to="{name:'admin-movies'}" class="text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block"
-                           href="#">
+                        <router-link :to="{name:'admin-movies'}" class="px-2 text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block">
                             <font-awesome-icon icon="tv" class="opacity-75 mr-2 text-sm"/>
                             Movies
                         </router-link>
                     </li>
                     <li class="items-center">
-                        <router-link :to="{name:'admin-subscriptions'}" class="text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block"
-                           href="#">
+                        <router-link :to="{name:'admin-movies'}" class="px-2 text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block">
+                            <font-awesome-icon icon="film" class="opacity-75 mr-2 text-sm"/>
+                            Genres
+                        </router-link>
+                    </li>
+                    <li class="items-center">
+                        <router-link :to="{name:'admin-subscriptions'}" class="px-2 text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block">
                             <font-awesome-icon icon="rocket" class="opacity-75 mr-2 text-sm"/>
                             Subscriptions
                         </router-link>
                     </li>
                 </ul>
-                <!-- Divider -->
+
                 <hr class="my-4 md:min-w-full" />
-                <!-- Heading -->
+
                 <h6 class="ml-2 md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
                     System
                 </h6>
-                <!-- Navigation -->
-                <ul class="ml-2 md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-                    <li class="inline-flex">
-                        <router-link :to="{name:'admin-users'}" class="text-blueGray-700 hover:text-purple-500 text-sm block mb-4 no-underline font-semibold"
-                                href="#">
-                            <font-awesome-icon icon="paint-brush" class="mr-2 text-blueGray-400 text-base"/>
+
+                <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+                    <li class="items-center">
+                        <router-link :to="{name:'admin-users'}" class="px-2 text-blueGray-700 hover:text-purple-500 outline outline-offset-2 outline-blue-500 text-xs uppercase py-3 font-bold block">
+                            <font-awesome-icon icon="paint-brush" class="opacity-75 mr-2 text-sm"/>
                             Users
                         </router-link>
                     </li>

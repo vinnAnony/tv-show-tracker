@@ -65,6 +65,9 @@ const routes = [
     {
         path: '/admin',
         component: Vue.component("admin-component",Admin),
+        meta: {
+            requiresAdmin: true
+        },
         children: [
             {
                 path: '',
@@ -98,6 +101,7 @@ const routes = [
 const router = new VueRouter({
     routes,
     mode: 'history',
+    linkExactActiveClass: "text-white bg-indigo-600 rounded",
 
 });
 
@@ -111,16 +115,28 @@ router.beforeEach((to, from, next) => {
         else {
             next();
         }
-    }
-    else if (to.matched.some(record => record.meta.guest)) {
+    }else if (to.matched.some(record => record.meta.guest)) {
         if (localStorage.getItem('jwToken') == null) {
             next()
         } else {
-            next({ name: '/' })
+            next({ name: 'home' })
         }
-    } else {
+    }else if (to.matched.some(record => record.meta.requiresAdmin)) {
+        if (localStorage.getItem('jwToken') !== null) {
+            if (JSON.parse(localStorage.getItem('user')).isAdmin) {
+                next()
+            }else {
+                next({ name: 'dashboard' })
+            }
+            next()
+        } else {
+            next({ name: 'account' })
+        }
+    }else {
         next()
     }
+
+
 });
 
 export default router
