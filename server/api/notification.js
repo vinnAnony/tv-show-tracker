@@ -5,7 +5,9 @@ const notificationsController = require("../controllers/notification.controller"
 
 
 router.route('/send-notification/')
-    .get(notificationsController.sendNotificationToAllSubscribers);
+    .post(notificationsController.sendNotificationToAllSubscribers);
+router.route('/send-subscribers-notification/')
+    .post(notificationsController.sendNotificationToSpecificSubscribers);
 
 
 module.exports = router

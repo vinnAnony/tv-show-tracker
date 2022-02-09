@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require("../config/database");
 const User = require("../models/user.model.js")(sequelize, Sequelize);
-const Movie = require("../models/movie.model.js")(sequelize, Sequelize);
 
 module.exports = (sequelize) => {
     const Subscription = sequelize.define("subscription", {
@@ -11,7 +10,7 @@ module.exports = (sequelize) => {
             autoIncrement: true,
             allowNull: false
         },
-        movie_id: {
+        genre_id: {
             type: DataTypes.INTEGER
         },
         user_id: {
@@ -26,6 +25,5 @@ module.exports = (sequelize) => {
     });
 
     Subscription.belongsTo(User, {foreignKey:'user_id'});
-    Subscription.belongsTo(Movie, {foreignKey:'movie_id'});
     return Subscription;
 };

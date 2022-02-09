@@ -14,7 +14,7 @@ exports.create = [
     body('movie_name').isLength({min: 1}).withMessage('Movie name required'),
     body('genre_id').isLength({min: 1}).withMessage('Genre required'),
     body('movie_type_id').isLength({min: 1}).withMessage('Movie type required'),
-    body('description').isLength({min: 20}).withMessage('Name required'),
+    body('description').isLength({min: 20}).withMessage('Description is too short'),
     body('rating').isNumeric().withMessage('Rating must be a numeric'),
     body('poster_url').isLength({min:1}).withMessage('Poster image required'),
     (req, res) => {
@@ -47,7 +47,13 @@ exports.create = [
 
 exports.findAll = (req, res) => {
 
-    Movie.findAll()
+    Movie.findAll(
+        {
+            include:[
+                {model: Genre, required: true},
+                ]
+        }
+    )
         .then(data => {
             res.send(data);
         })
@@ -105,6 +111,7 @@ exports.fetchMovieDetails = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
+                    success: false,
                     message: `Cannot find Movie with id=${id}.`
                 });
             }
@@ -125,10 +132,12 @@ exports.update = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
+                    success: true,
                     message: "Movie was updated successfully."
                 });
             } else {
                 res.send({
+                    success: false,
                     message: `Cannot update Movie with id=${id}.`
                 });
             }
@@ -149,10 +158,12 @@ exports.delete = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
+                    success: true,
                     message: "Movie deleted successfully!"
                 });
             } else {
                 res.send({
+                    success: false,
                     message: `Cannot delete movie with id=${id}. Maybe movie was not found!`
                 });
             }

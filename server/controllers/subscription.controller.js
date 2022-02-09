@@ -5,7 +5,7 @@ const {body, validationResult} = require('express-validator');
 
 
 exports.create = [
-    body('movie_id').isLength({min: 1}).withMessage('Movie required'),
+    body('genre_id').isLength({min: 1}).withMessage('Genre required'),
     body('user_id').isLength({min: 1}).withMessage('User required'),
     (req, res) => {
 
@@ -16,7 +16,7 @@ exports.create = [
     }
 
     const movie = {
-        movie_id: req.body.movie_id,
+        genre_id: req.body.genre_id,
         user_id: req.body.user_id,
     };
 
@@ -67,11 +67,11 @@ exports.findUserSubscriptions = (req, res) => {
         });
 };
 
-exports.findMovieSubscriptions = (req, res) => {
+exports.findGenreSubscriptions = (req, res) => {
     const id = req.params.id;
 
     Subscription.findAll({
-        where: { movie_id: id }
+        where: { genre_id: id }
     })
         .then(data => {
             if (data) {

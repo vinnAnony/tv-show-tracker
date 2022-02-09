@@ -16,6 +16,8 @@ router.route('/genres/:id')
 
     .delete(genresController.delete);
 
+router.route('/genre-subscriptions')
+    .get(genresController.findAllGenreSubscriptions);
 
 //add search
 

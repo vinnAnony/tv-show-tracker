@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER
         },
         description: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(1000)
         },
         rating: {
             type: DataTypes.FLOAT

@@ -26,6 +26,8 @@ module.exports = (sequelize) => {
         password: {
             type: DataTypes.STRING
         }
+    },{
+        paranoid: true
     });
 
     return User;

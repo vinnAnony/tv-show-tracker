@@ -17,8 +17,8 @@ router.route('/subscriptions/:id')
 router.route('/user-subscriptions/:id')
     .get(subscriptionsController.findUserSubscriptions);
 
-router.route('/subscriptions-by-movie/:id')
-    .get(subscriptionsController.findMovieSubscriptions);
+router.route('/subscriptions-by-genre/:id')
+    .get(subscriptionsController.findGenreSubscriptions);
 
 //add search
 

@@ -2,7 +2,9 @@ const db = require("../models");
 const Genre = db.genres;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
-
+const sequelize = require("../config/database");
+const Subscription = require("../models/subscription.model.js")(sequelize, db.Sequelize);
+const Movie = require("../models/movie.model")(sequelize, db.Sequelize);
 
 exports.create = [
     body('genre_name').isLength({min: 1}).withMessage('Genre name required'),
@@ -32,6 +34,25 @@ exports.create = [
 exports.findAll = (req, res) => {
 
     Genre.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving genres."
+            });
+        });
+};
+
+exports.findAllGenreSubscriptions = (req, res) => {
+
+    Genre.findAll({
+            include: [
+                {model: Subscription},
+            ],
+        }
+    )
         .then(data => {
             res.send(data);
         })

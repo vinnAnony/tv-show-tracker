@@ -108,3 +108,56 @@ exports.findAll = (req, res) => {
             });
         });
 };
+
+exports.update = (req, res) => {
+    const id = req.params.id;
+
+    User.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    success: true,
+                    message: "User updated successfully."
+                });
+            } else {
+                res.send({
+                    success: false,
+                    message: `Cannot update user with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating user with =>" + err.message
+            });
+        });
+};
+
+exports.delete = (req, res) => {
+    const id = req.params.id;
+
+    User.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    success: true,
+                    message: "User deleted successfully!"
+                });
+            } else {
+                res.send({
+                    success: true,
+                    message: `Cannot delete user with id=${id}. Maybe user was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                success: true,
+                message: "Could not delete user with id=>" + err.message
+            });
+        });
+};
