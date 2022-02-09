@@ -91,7 +91,7 @@
     import 'jquery/dist/jquery.min.js';
     import "datatables.net-dt/js/dataTables.dataTables";
     import "datatables.net-dt/css/jquery.dataTables.min.css";
-    import axios from 'axios';
+    import url from '../../../api/index'
     import $ from 'jquery';
     import AdminAddUser from "./AdminAddUser";
     export default {
@@ -104,8 +104,8 @@
             }
         },
         mounted(){
-            axios
-                .get("http://localhost:4400/api/auth/users")
+            url
+                .get("auth/users")
                 .then((response)=>
                 {
                     this.users = response.data;
@@ -133,8 +133,8 @@
                     confirmButtonText: 'Yes'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        axios.delete(
-                            "http://localhost:4400/api/auth/users/" + id
+                        url.delete(
+                            "auth/users/" + id
                         )
                             .then(response => {
                                 if (response.data.success)

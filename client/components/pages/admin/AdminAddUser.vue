@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import url from '../../../api/index'
     export default {
         name: "AdminAddUser",
         props: {
@@ -67,7 +67,7 @@
         },
         methods:{
             editUser(user){
-                axios.put("http://localhost:4400/api/auth/user/" + user.id,user)
+                url.put("api/auth/user/" + user.id,user)
                     .then(response => {
                         if (response.data.success)
                         {
