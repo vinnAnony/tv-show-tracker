@@ -13,7 +13,8 @@ import Dashboard from "../components/pages/admin/Dashboard";
 
 import Admin from "../components/pages/admin/Admin";
 import AdminMovies from "../components/pages/admin/AdminMovies";
-import AdminAddMovie from "../components/pages/admin/AdminAddMovie";
+import AdminUsers from "../components/pages/admin/AdminUsers";
+import AdminSubscriptions from "../components/pages/admin/AdminSubscriptions";
 
 
 const routes = [
@@ -75,9 +76,14 @@ const routes = [
                 component: Vue.component("admin-movies-component",AdminMovies),
             },
             {
-                path: 'add-movie',
-                name: 'admin-add-movie',
-                component: Vue.component("admin-movies-component",AdminAddMovie),
+                path: 'users',
+                name: 'admin-users',
+                component: Vue.component("admin-users-component",AdminUsers),
+            },
+            {
+                path: 'subscriptions',
+                name: 'admin-subscriptions',
+                component: Vue.component("admin-subscriptions-component",AdminSubscriptions),
             },
         ]
     },
@@ -90,7 +96,8 @@ const routes = [
 
 const router = new VueRouter({
     routes,
-    mode: 'history'
+    mode: 'history',
+
 });
 
 // Meta Handling

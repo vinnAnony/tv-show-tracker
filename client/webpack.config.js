@@ -10,6 +10,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "dist"),
+        filename: 'app.js',
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -52,13 +54,24 @@ module.exports = {
             {
                 test: /\.(png|jp(e*)g|svg)$/,
                 use: [{
-                    loader: 'url-loader',
+                    loader: 'file-loader',
                     options: {
-                        limit: 8000, // Convert images < 8kb to base64 strings
-                        name: '/assets/images/[name].[ext]'
+                        name: '[name].[ext]',
+                        outputPath: 'assets/images/',
+                        publicPath: 'assets/images/',
+                        esModule: false,
+                        useRelativePaths: false
                     }
                 }]
             },
+            {
+                test: /\.js$/,
+                use: [{ loader: 'babel-loader', options: { cacheDirectory:true } }],
+                include: [
+                    '/src/',
+            /vue2-datatable-component/ // <-- add this!
+        ]
+    },
         ],
     },
     plugins: [

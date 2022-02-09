@@ -65,7 +65,7 @@
                         </router-link>
                     </li>
                     <li class="items-center">
-                        <router-link :to="{name:'subscriptions-admin'}" class="text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block"
+                        <router-link :to="{name:'admin-subscriptions'}" class="text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block"
                            href="#">
                             <font-awesome-icon icon="rocket" class="opacity-75 mr-2 text-sm"/>
                             Subscriptions
@@ -81,7 +81,7 @@
                 <!-- Navigation -->
                 <ul class="ml-2 md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
                     <li class="inline-flex">
-                        <router-link :to="{name:'users-admin'}" class="text-blueGray-700 hover:text-purple-500 text-sm block mb-4 no-underline font-semibold"
+                        <router-link :to="{name:'admin-users'}" class="text-blueGray-700 hover:text-purple-500 text-sm block mb-4 no-underline font-semibold"
                                 href="#">
                             <font-awesome-icon icon="paint-brush" class="mr-2 text-blueGray-400 text-base"/>
                             Users
