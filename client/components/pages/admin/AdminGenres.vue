@@ -97,6 +97,7 @@
 <script>
     import url from '../../../api/index'
     import axios from "axios";
+    import {tvShowerAlert} from "../../../api/alerts";
 
     export default {
         name: "AdminGenres",
@@ -147,18 +148,14 @@
                                 if (response.data.success)
                                 {
                                     this.genres =  this.genres.filter((cGenre) => cGenre.id != id);
-                                    Vue.swal({
-                                        toast: true,
-                                        position: 'top-end',
-                                        showConfirmButton: false,
-                                        timer: 2000,
-                                        icon: 'success',
-                                        title: 'Deleted successfully.'
-                                    });
+                                    tvShowerAlert('success','Deleted successfully');
                                 }
                             })
                             .catch(error => {
-                                console.error("There was an error!", error);
+                                let errors = error.response.data.errors;
+                                for (const error of errors){
+                                    tvShowerAlert('error',error.msg);
+                                }
                             });
                     }
                 });
@@ -170,11 +167,14 @@
                         {
                             this.genres.unshift(response.data.genre);
                             this.closeModal();
-                            console.log(response.data.genre)
+                            tvShowerAlert('success',response.data.message);
                         }
                     })
                     .catch(error => {
-                        console.error("There was an error!", error);
+                        let errors = error.response.data.errors;
+                        for (const error of errors){
+                            tvShowerAlert('error',error.msg);
+                        }
                     });
             },
             editGenre(genre){
@@ -183,11 +183,14 @@
                         if (response.data.success)
                         {
                             this.closeModal();
-                            console.log(response.data.message);
+                            tvShowerAlert('success',response.data.message);
                         }
                     })
                     .catch(error => {
-                        console.error("There was an error!", error);
+                        let errors = error.response.data.errors;
+                        for (const error of errors){
+                            tvShowerAlert('error',error.msg);
+                        }
                     });
 
             },

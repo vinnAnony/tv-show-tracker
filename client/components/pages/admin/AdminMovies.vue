@@ -87,67 +87,105 @@
                             </tbody>
                         </table>
                     </div>
-                    <sweet-modal ref="movieModal">
-                        <div class="flex flex-wrap mt-4">
-                            <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto">
-                                <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-                                    <div class="rounded-t mb-0 px-4 py-3 border-0">
-                                        <div class="flex flex-col">
-                                            <p class="text-3xl font-bold leading-7 text-center">Movie Info</p>
-                                            <form @submit.prevent="isEdit ? editMovie(movie) : addMovie(movie)">
-                                                <div class="md:flex items-center mt-8">
-                                                    <div class="w-full flex flex-col">
-                                                        <label class="font-semibold leading-none">Movie Name</label>
-                                                        <input v-model="movie.movie_name" type="text" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                    <sweet-modal ref="movieModal" :movie-data="movie">
+                        <sweet-modal-tab title="Movie Info" id="movieInfoTab">
+                            <div class="mt-0">
+                                <div class="w-full px-4">
+                                    <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                                        <div class="rounded-t mb-0 px-4 py-3 border-0">
+                                            <div class="flex flex-col">
+                                                <p class="text-3xl font-bold leading-7 text-center">Movie Info</p>
+                                                <form @submit.prevent="isEdit ? editMovie(movie) : addMovie(movie)">
+                                                    <div class="md:flex items-center mt-8">
+                                                        <div class="w-full flex flex-col">
+                                                            <label class="font-semibold leading-none">Movie Name</label>
+                                                            <input v-model="movie.movie_name" type="text" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="md:flex items-center mt-12">
-                                                    <div class="w-full md:w-1/3 flex flex-col  md:mt-0 mt-4">
-                                                        <label class="font-semibold leading-none">Movie Type</label>
-                                                        <select v-model="movie.movie_type_id" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
-                                                            <option value="1">Movie</option>
-                                                            <option value="2">Tv Series</option>
-                                                        </select>
+                                                    <div class="md:flex items-center mt-12">
+                                                        <div class="w-full md:w-1/3 flex flex-col  md:mt-0 mt-4">
+                                                            <label class="font-semibold leading-none">Movie Type</label>
+                                                            <select v-model="movie.movie_type_id" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
+                                                                <option value="1">Movie</option>
+                                                                <option value="2">Tv Series</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="w-full md:w-1/3 flex flex-col md:ml-6 md:mt-0 mt-4">
+                                                            <label class="font-semibold leading-none">Movie Genre</label>
+                                                            <select v-model="movie.genre_id" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
+                                                                <option
+                                                                        v-for="genre in genres"
+                                                                        :key="genre.id"
+                                                                        v-bind:value="genre.id">{{genre.genre_name}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="w-full md:w-1/3 flex flex-col md:ml-6 md:mt-0 mt-4">
+                                                            <label class="font-semibold leading-none">IMDB Rating</label>
+                                                            <input v-model="movie.rating" type="number" step="0.1" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                                                        </div>
                                                     </div>
-                                                    <div class="w-full md:w-1/3 flex flex-col md:ml-6 md:mt-0 mt-4">
-                                                        <label class="font-semibold leading-none">Movie Genre</label>
-                                                        <select v-model="movie.genre_id" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
-                                                            <option
-                                                                    v-for="genre in genres"
-                                                                    :key="genre.id"
-                                                                    v-bind:value="genre.id">{{genre.genre_name}}</option>
-                                                        </select>
+                                                    <div class="md:flex items-center mt-8">
+                                                        <div class="w-full flex flex-col">
+                                                            <label class="font-semibold leading-none">Poster Image Url</label>
+                                                            <input v-model="movie.poster_url" type="text" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                                                        </div>
                                                     </div>
-                                                    <div class="w-full md:w-1/3 flex flex-col md:ml-6 md:mt-0 mt-4">
-                                                        <label class="font-semibold leading-none">IMDB Rating</label>
-                                                        <input v-model="movie.rating" type="number" step="0.1" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                                                    <div>
+                                                        <div class="w-full flex flex-col mt-8">
+                                                            <label class="font-semibold leading-none">Movie Description</label>
+                                                            <textarea v-model="movie.description"
+                                                                      type="text"
+                                                                      class="h-40 text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="md:flex items-center mt-8">
-                                                    <div class="w-full flex flex-col">
-                                                        <label class="font-semibold leading-none">Poster Image Url</label>
-                                                        <input v-model="movie.poster_url" type="text" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                                                    <div class="flex items-center justify-center w-full">
+                                                        <button type="submit" class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-blue-700 rounded hover:bg-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
+                                                            {{isEdit ? 'Edit' : 'Add' }} Movie
+                                                        </button>
                                                     </div>
-                                                </div>
-                                                <div>
-                                                    <div class="w-full flex flex-col mt-8">
-                                                        <label class="font-semibold leading-none">Movie Description</label>
-                                                        <textarea v-model="movie.description"
-                                                                  type="text"
-                                                                  class="h-40 text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center justify-center w-full">
-                                                    <button type="submit" class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-blue-700 rounded hover:bg-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
-                                                        {{isEdit ? 'Edit' : 'Add' }} Movie
-                                                    </button>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </sweet-modal-tab>
+                        <sweet-modal-tab title="Actors" id="actorsTab" :disabled="!isEdit">
+                            <div v-for="movie_actor in movie.movie_actors" :key="movie_actor.id" class="text-sm font-bold leading-7 text-left ml-14">
+                                    {{movie_actor.actor.actor_name}}
+                            </div>
+                            <div class="mt-0">
+                                <div class="w-full px-4">
+                                    <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+                                        <div class="rounded-t mb-0 px-4 py-3 border-0">
+                                            <div class="flex flex-col">
+                                                <p class="text-3xl font-bold leading-7 text-center">Actor Info</p>
+                                                <form @submit.prevent="addActor(actor)">
+                                                    <div class="md:flex items-center mt-8">
+                                                        <div class="w-full flex flex-col">
+                                                            <label class="font-semibold leading-none">Actor Name</label>
+                                                            <select v-model="actor.actor_id" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
+                                                                <option
+                                                                        v-for="actor in actors"
+                                                                        :key="actor.id"
+                                                                        v-bind:value="actor.id">
+                                                                    {{actor.actor_name}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center justify-center w-full">
+                                                        <button type="submit" class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-blue-700 rounded hover:bg-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
+                                                            Add Actor
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </sweet-modal-tab>
                     </sweet-modal>
                 </div>
             </div>
@@ -157,8 +195,8 @@
 </template>
 
 <script>
-    import axios from "axios";
-    import $ from "jquery";
+    import url from "../../../api";
+    import {tvShowerAlert} from "../../../api/alerts";
 
     export default {
         name: "AdminMovies",
@@ -168,23 +206,32 @@
                 movies:{},
                 movie:{},
                 genres:{},
-                movie_types:{
-
-                }
+                actor:{},
+                actors:{},
+                movie_actors:{},
+                movie_types:{}
             }
         },
         beforeMount(){
-            axios
-                .get("http://localhost:4400/api/movies")
+            url
+                .get("movies")
                 .then((response)=>
                 {
                     this.movies = response.data;
-                    console.log(this.movies);
+                    console.log(this.movies[4].movie_actors[0].actor.actor_name);
                 });
-            axios.get("http://localhost:4400/api/genres")
+            url.get("genres")
                 .then(response => {
                     this.genres = response.data;
                     console.log(this.genres);
+                })
+                .catch(error => {
+                    console.error("There was an error!", error);
+                });
+            url.get("actors")
+                .then(response => {
+                    this.actors = response.data;
+                    console.log(this.actors);
                 })
                 .catch(error => {
                     console.error("There was an error!", error);
@@ -214,56 +261,77 @@
                     confirmButtonText: 'Yes'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        axios.delete(
-                            "http://localhost:4400/api/movies/" + id
+                        url.delete(
+                            "movies/" + id
                         )
                             .then(response => {
                                 if (response.data.success)
                                 {
                                     this.movies =  this.movies.filter((cMovie) => cMovie.id != id);
-                                    Vue.swal({
-                                        toast: true,
-                                        position: 'top-end',
-                                        showConfirmButton: false,
-                                        timer: 2000,
-                                        icon: 'success',
-                                        title: 'Deleted successfully.'
-                                    });
+                                    tvShowerAlert('success','Deleted successfully!');
                                 }
                             })
                             .catch(error => {
-                                console.error("There was an error!", error);
+                                let errors = error.response.data.errors;
+                                for (const error of errors){
+                                    tvShowerAlert('error',error.msg);
+                                }
                             });
                     }
                 });
             },
             addMovie(movie){
-                axios.post("http://localhost:4400/api/movies",movie)
+                url.post("movies",movie)
                     .then(response => {
                         if (response.data.success)
                         {
+                            tvShowerAlert('success',response.data.message);
                             this.movies.unshift(response.data.movie);
                             this.closeModal();
                             console.log(response.data.movie)
                         }
                     })
                     .catch(error => {
-                        console.error("There was an error!", error);
+                        let errors = error.response.data.errors;
+                        for (const error of errors){
+                            tvShowerAlert('error',error.msg);
+                        }
                     });
             },
             editMovie(movie){
-                axios.put("http://localhost:4400/api/movies/" + movie.id,movie)
+                url.put("movies/" + movie.id,movie)
                     .then(response => {
                         if (response.data.success)
                         {
+                            tvShowerAlert('success',response.data.message);
                             this.closeModal();
                             console.log(response.data.message);
                         }
                     })
                     .catch(error => {
-                        console.error("There was an error!", error);
+                        let errors = error.response.data.errors;
+                        for (const error of errors){
+                            tvShowerAlert('error',error.msg);
+                        }
                     });
 
+            },
+            addActor(actor){
+                actor.movie_id = this.movie.id;
+                url.post("add-actor-to-movie",actor)
+                    .then(response => {
+                        if (response.data.success)
+                        {
+                            tvShowerAlert('success',response.data.message);
+                            this.closeModal();
+                        }
+                    })
+                    .catch(error => {
+                        let errors = error.response.data.errors;
+                        for (const error of errors){
+                            tvShowerAlert('error',error.msg);
+                        }
+                    });
             },
         }
     }

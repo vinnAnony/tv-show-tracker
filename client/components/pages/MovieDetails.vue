@@ -32,8 +32,15 @@
             </div>
             <div class="text-gray-400 flex mt-3 items-center font-medium text-sm">
                 <font-awesome-icon icon="film" class="text-gray-400 mr-2 text-xl"/>
-
-                {{ movieDetails.genre.genre_name }}
+                {{ movieDetails.genre.genre_name }} Rating
+            </div>
+        </div>
+        <div class="mt-4 px-4 w-full">
+            <div class="text-gray-900 flex mt-3 items-center font-medium text-sm">
+                <h3 class="text-gray-900 font-medium text-md tracking-wide">Actors</h3>
+            </div>
+            <div class="text-gray-500 flex mt-3 items-center font-medium text-sm">
+                <p>{{ movieDetails.description }}</p>
             </div>
         </div>
         <div class="mt-4 px-4 w-full">
@@ -48,7 +55,7 @@
             <div class="text-gray-500 flex mt-3 items-center font-medium text-sm">
                 <h3 class="text-gray-900 font-medium text-md tracking-wide">Comments</h3>
             </div>
-            <div class="w-full text-gray-500 flex mt-3 items-center font-medium text-sm pb-4">
+            <div class="w-full text-gray-500 mt-3 font-medium text-sm pb-4">
                 <div>
                     <section class="rounded-b-lg mt-4 ">
                         <div id="movie-comments" class="pt-4">
