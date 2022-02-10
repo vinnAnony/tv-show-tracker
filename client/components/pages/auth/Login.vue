@@ -37,6 +37,8 @@
 
 <script>
     import axios from 'axios';
+    import {tvShowerAlert} from "../../../api/alerts";
+    import url from "../../../api";
     export default {
         name: "Login",
         data: () => {
@@ -49,36 +51,38 @@
                 axios.post("http://localhost:4400/api/auth/login",this.loginData)
                     .then(response => {
 
-                        Vue.swal({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            icon: response.data.success ? 'success' : 'error',
-                            title: response.data.message
-                        });
+                        tvShowerAlert(response.data.success ? 'success' : 'error',response.data.message);
 
                         if (response.data.success){
                             this.$store.dispatch('auth/login',response.data);
                             this.$router.push('/home');
+                            //fetch favourite
+                            this.fetchFavs(response.data.user.id);
                         }
 
                     })
                     .catch(error => {
                         let errors = error.response.data.errors;
                         for (const error of errors){
-                            Vue.swal({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                icon: 'error',
-                                title: error.msg
-                            });
+                            tvShowerAlert('error',error.msg);
                         }
                     });
+            },
+            async fetchFavs(user_id){
+                await url
+                    .get("user-favourites/" + user_id)
+                    .then((response)=>
+                    {
+                        // let favMovies= [];
+                        // for (const fMovie of response.data){
+                        //     let favMovie= [];
+                        //     console.log(fMovie)
+                        //     favMovies.movie_id = fMovie.movie_id;
+                        // }
+                        // console.log(favMovies)
+                        this.$store.dispatch('favMovies/addFavMovies',response.data);
+                    });
             }
-
         },
     }
 </script>

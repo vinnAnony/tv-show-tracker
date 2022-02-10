@@ -21,45 +21,51 @@
                 </h3>
 
                 <div class="flex align-center gap-2">
-                    <button class="text-red-400 cursor-pointer" @click="toggleFavourite(movieDetails.id, $event)">
-                        <font-awesome-icon icon="heart" class="mr-2 text-blueGray-400 text-2xl"/>
-                    </button>
-                    <button class="text-blue-400 cursor-pointer" @click="toggleSubscribe(movieDetails.id, $event)">
-                        <font-awesome-icon icon="bookmark" class="mr-2 text-blueGray-400 text-2xl"/>
+                    <button class="cursor-pointer" @click="toggleFavourite(movieDetails.id)"
+                            :class="isFavourite ? 'text-red-400': ''">
+                        <font-awesome-icon icon="heart" class="mr-2 text-2xl"/>
                     </button>
                 </div>
 
             </div>
-            <div class="text-gray-400 flex mt-3 items-center font-medium text-sm">
-                <font-awesome-icon icon="film" class="text-gray-400 mr-2 text-xl"/>
-                {{ movieDetails.genre.genre_name }} Rating
-            </div>
-        </div>
-        <div class="mt-4 px-4 w-full">
-            <div class="text-gray-900 flex mt-3 items-center font-medium text-sm">
-                <h3 class="text-gray-900 font-medium text-md tracking-wide">Actors</h3>
-            </div>
-            <div class="text-gray-500 flex mt-3 items-center font-medium text-sm">
-                <p>{{ movieDetails.description }}</p>
-            </div>
-        </div>
-        <div class="mt-4 px-4 w-full">
-            <div class="text-gray-900 flex mt-3 items-center font-medium text-sm">
-                <h3 class="text-gray-900 font-medium text-md tracking-wide">Description</h3>
-            </div>
-            <div class="text-gray-500 flex mt-3 items-center font-medium text-sm">
-                <p>{{ movieDetails.description }}</p>
-            </div>
-        </div>
-        <div class="mt-4 px-4 w-full">
-            <div class="text-gray-500 flex mt-3 items-center font-medium text-sm">
-                <h3 class="text-gray-900 font-medium text-md tracking-wide">Comments</h3>
-            </div>
-            <div class="w-full text-gray-500 mt-3 font-medium text-sm pb-4">
+            <div class="flex align-center justify-between gap-2 pt-3">
                 <div>
-                    <section class="rounded-b-lg mt-4 ">
+                    <font-awesome-icon icon="film" class="text-gray-400 mr-2 text-xl"/>
+                    {{ movieDetails.genre.genre_name }}
+                </div>
+                <button class="cursor-pointer ml-3" @click="toggleSubscribe(movieDetails.id)"
+                        :class="isSubscribed ? 'text-blue-400': ''">
+                    <font-awesome-icon icon="bookmark" class="mr-2 text-2xl"/>
+                </button>
+            </div>
+        </div>
+        <div class="mt-4 px-4 w-full">
+            <div class="text-gray-900 flex mt-3 items-center font-medium text-sm">
+                <h3 class="text-gray-900 font-medium text-xl tracking-wide">Actors</h3>
+            </div>
+            <div class="text-blue-500 flex items-center font-medium text-sm">
+                <p v-for="movie_actor in movieDetails.movie_actors" :key="movie_actor.id" class="text-sm leading-7">
+                    {{movie_actor.actor.actor_name}},
+                </p>
+            </div>
+        </div>
+        <div class="mt-4 px-4 w-full">
+            <div class="text-gray-900 flex mt-3 items-center font-medium text-sm">
+                <h3 class="text-gray-900 font-medium text-xl tracking-wide">Description</h3>
+            </div>
+            <div class="text-gray-500 flex items-center font-medium text-sm">
+                <p>{{ movieDetails.description }}</p>
+            </div>
+        </div>
+        <div class="mt-4 px-4 w-full">
+            <div class="text-gray-500 flex mt-3 items-center font-medium text-sm">
+                <h3 class="text-gray-900 font-medium text-xl tracking-wide">Comments</h3>
+            </div>
+            <div class="w-full text-gray-500 font-medium text-sm pb-4">
+                <div>
+                    <section class="rounded-b-lg mt-0 ">
                         <div id="movie-comments" class="pt-4">
-                            <comment v-for="comment in comments" :key="comment.id">
+                            <comment v-for="comment in comments" :key="comment.id" class="bg-gray-100">
                                 <template #username>
                                     {{comment.user.user_name ? comment.user.user_name : 'Anonymous'}}
                                 </template>
@@ -68,12 +74,12 @@
                                 </template>
                             </comment>
                         </div>
-                        <form >
+                        <form>
                             <textarea
-                                    class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
+                                    class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline outline text-2xl"
                                     placeholder="Leave a comment here." cols="6" rows="6" id="comment_content"
                                     spellcheck="false"/>
-                            <button class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg ">Comment </button>
+                            <button class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg hover:bg-purple-700">Comment </button>
                         </form>
                     </section>
 
@@ -86,6 +92,7 @@
 <script>
     import Comment from "../ui/Comment";
     import url from "../../api";
+    import {mapGetters} from "vuex";
     export default {
         name: "MovieDetails",
         components: {Comment},
@@ -93,21 +100,57 @@
             movieDetails: {
                 type: Object
             },
+            fromFavourites: {
+                type: Boolean
+            },
+            fromSubscriptions: {
+                type: Boolean
+            },
         },
         data(){
             return{
                 comments:{},
+                isFavourite:false,
+                isSubscribed:false,
             }
         },
         beforeMount(){
+            if (this.fromFavourites)
+                this.isFavourite = true;
+            if (this.fromSubscriptions)
+                this.isSubscribed = true;
+            //fetch comments
             url
                 .get("movies-details/" + this.movieDetails.id)
                 .then((response)=>
                 {
-                    console.log(response.data[0].comments);
-                    console.log(response.data[0].comments[1].user);
                     this.comments = response.data[0].comments;
-                })
+                });
+
+            //check if favourite
+            if (this.notEmptyFavs){
+                const favMovies = JSON.parse(localStorage.getItem('favMovies'));
+                const checkFav = favMovies.filter(movie => {
+                    return movie.movie_id === this.movieDetails.id
+                });
+                if (checkFav.length>0)
+                    this.isFavourite = true;
+            }
+
+        },
+        methods: {
+            toggleFavourite(id){
+
+            },
+            toggleSubscribe(id){
+
+            },
+        },
+        computed:{
+            ...mapGetters('favMovies', {
+                notEmptyFavs: 'notEmptyFavs',
+                favMovies: 'favMovies'
+            })
         },
     }
 </script>
