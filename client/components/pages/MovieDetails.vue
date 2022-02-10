@@ -33,7 +33,7 @@
                     <font-awesome-icon icon="film" class="text-gray-400 mr-2 text-xl"/>
                     {{ movieDetails.genre.genre_name }}
                 </div>
-                <button class="cursor-pointer ml-3" @click="toggleSubscribe(movieDetails.id)"
+                <button class="cursor-pointer ml-3" @click="toggleSubscribe(movieDetails.genre_id)"
                         :class="isSubscribed ? 'text-blue-400': ''">
                     <font-awesome-icon icon="bookmark" class="mr-2 text-2xl"/>
                 </button>
@@ -74,12 +74,14 @@
                                 </template>
                             </comment>
                         </div>
-                        <form>
+                        <form @submit.prevent="submitComment">
                             <textarea
                                     class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline outline text-2xl"
                                     placeholder="Leave a comment here." cols="6" rows="6" id="comment_content"
-                                    spellcheck="false"/>
-                            <button class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg hover:bg-purple-700">Comment </button>
+                                    spellcheck="false" v-model="comment.comment"/>
+                            <button type="submit" class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg hover:bg-purple-700">
+                                Comment
+                            </button>
                         </form>
                     </section>
 
@@ -93,6 +95,7 @@
     import Comment from "../ui/Comment";
     import url from "../../api";
     import {mapGetters} from "vuex";
+    import {tvShowerAlert} from "../../api/alerts";
     export default {
         name: "MovieDetails",
         components: {Comment},
@@ -109,6 +112,7 @@
         },
         data(){
             return{
+                comment:{},
                 comments:{},
                 isFavourite:false,
                 isSubscribed:false,
@@ -128,28 +132,103 @@
                 });
 
             //check if favourite
-            if (this.notEmptyFavs){
-                const favMovies = JSON.parse(localStorage.getItem('favMovies'));
-                const checkFav = favMovies.filter(movie => {
-                    return movie.movie_id === this.movieDetails.id
+            url
+                .get("user-favourites/" + this.user.id)
+                .then((response)=>
+                {
+                    const checkFav = response.data.filter(movie => {
+                        return movie.movie_id === this.movieDetails.id
+                    });
+                    if (checkFav.length>0)
+                        this.isFavourite = true;
                 });
-                if (checkFav.length>0)
-                    this.isFavourite = true;
-            }
-
+            //fetch subscriptions
+            url
+                .get("user-subscriptions/" + this.user.id)
+                .then((response)=>
+                {
+                    const checkSub = response.data.filter(genre => {
+                        return genre.genre_id === this.movieDetails.genre_id
+                    });
+                    if (checkSub.length>0)
+                        this.isSubscribed = true;
+                });
         },
         methods: {
             toggleFavourite(id){
-
+                if (this.isFavourite){
+                    tvShowerAlert('success','Already in your favourites');
+                } else {
+                    let fav = {
+                        movie_id: id,
+                        user_id: this.user.id
+                    };
+                    url.post("favourites",fav)
+                        .then(response => {
+                            if (response.data.success)
+                            {
+                                this.isFavourite = true;
+                                tvShowerAlert('success',response.data.message);
+                            }
+                        })
+                        .catch(error => {
+                            let errors = error.response.data.errors;
+                            for (const error of errors){
+                                tvShowerAlert('error',error.msg);
+                            }
+                        });
+                }
             },
             toggleSubscribe(id){
-
+                if (this.isSubscribed){
+                    tvShowerAlert('success','Already in your subscriptions');
+                } else {
+                    let sub = {
+                        genre_id: id,
+                        user_id: this.user.id
+                    };
+                    url.post("subscriptions",sub)
+                        .then(response => {
+                            if (response.data.success)
+                            {
+                                this.isSubscribed = true;
+                                tvShowerAlert('success',response.data.message);
+                            }
+                        })
+                        .catch(error => {
+                            let errors = error.response.data.errors;
+                            for (const error of errors){
+                                tvShowerAlert('error',error.msg);
+                            }
+                        });
+                }
+            },
+            submitComment(){
+                this.comment.user_id = this.user.id;
+                this.comment.movie_id = this.movieDetails.id;
+                url.post("comments",this.comment)
+                    .then(response => {
+                        if (response.data.success)
+                        {
+                            //this.comments.unshift(this.comment.comment);
+                            tvShowerAlert('success',response.data.message);
+                        }
+                    })
+                    .catch(error => {
+                        let errors = error.response.data.errors;
+                        for (const error of errors){
+                            tvShowerAlert('error',error.msg);
+                        }
+                    });
             },
         },
         computed:{
             ...mapGetters('favMovies', {
                 notEmptyFavs: 'notEmptyFavs',
                 favMovies: 'favMovies'
+            }),
+            ...mapGetters('auth', {
+                user: 'user'
             })
         },
     }
