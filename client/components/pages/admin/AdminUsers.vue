@@ -103,7 +103,7 @@
                 user:{}
             }
         },
-        mounted(){
+        beforeMount(){
             url
                 .get("auth/users")
                 .then((response)=>

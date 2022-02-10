@@ -1,7 +1,6 @@
 <template>
-    <div class="mx-2">
+    <div class="mx-2 pt-2">
         <div class="w-full h-80 rounded-md overflow-hidden bg-gray-50 lg:h-64">
-
                 <div v-if="movieDetails.poster_url !== ''" class="w-full h-full">
                     <img :src="movieDetails.poster_url"
                             class="w-full h-full aspect-auto md:object-cover lg:aspect-auto"
@@ -49,17 +48,16 @@
             <div class="text-gray-500 flex mt-3 items-center font-medium text-sm">
                 <h3 class="text-gray-900 font-medium text-md tracking-wide">Comments</h3>
             </div>
-            <div class="w-full text-gray-500 flex mt-3 items-center font-medium text-sm">
+            <div class="w-full text-gray-500 flex mt-3 items-center font-medium text-sm pb-4">
                 <div>
                     <section class="rounded-b-lg mt-4 ">
                         <div id="movie-comments" class="pt-4">
-                            <comment>
+                            <comment v-for="comment in comments" :key="comment.id">
                                 <template #username>
-                                    Shantell
+                                    {{comment.user.user_name ? comment.user.user_name : 'Anonymous'}}
                                 </template>
                                 <template #comment>
-                                    Hi good morning will it be the entire house.
-                                    Hi good morning will it be the entire house.
+                                    {{comment.comment}}
                                 </template>
                             </comment>
                         </div>
@@ -80,6 +78,7 @@
 
 <script>
     import Comment from "../ui/Comment";
+    import url from "../../api";
     export default {
         name: "MovieDetails",
         components: {Comment},
@@ -90,10 +89,18 @@
         },
         data(){
             return{
-                comments:{
-
-                },
+                comments:{},
             }
+        },
+        beforeMount(){
+            url
+                .get("movies-details/" + this.movieDetails.id)
+                .then((response)=>
+                {
+                    console.log(response.data[0].comments);
+                    console.log(response.data[0].comments[1].user);
+                    this.comments = response.data[0].comments;
+                })
         },
     }
 </script>

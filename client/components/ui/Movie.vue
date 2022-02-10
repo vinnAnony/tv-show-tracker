@@ -23,9 +23,9 @@
                         <h3 class="text-red-500 font-medium text-md tracking-wide">{{ movie.movie_name }}</h3>
                 </router-link>
 
-                <button class="cursor-pointer ml-2" @click="toggleFavourite(movie.id, $event)">
-                    <font-awesome-icon icon="heart" class="text-red-400 mr-2 text-xl"/>
-                </button>
+<!--                <button class="cursor-pointer ml-2" @click="toggleFavourite(movie.id)">-->
+<!--                    <font-awesome-icon icon="heart" class="mr-2 text-xl" :class="isFavourite ? 'text-red-400' : '' "/>-->
+<!--                </button>-->
             </div>
             <div class="text-gray-400 flex mt-3 items-center font-medium text-sm">
                 <font-awesome-icon icon="film" class="text-gray-400 mr-2 text-xl"/>
