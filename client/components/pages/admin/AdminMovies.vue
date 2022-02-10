@@ -173,7 +173,7 @@
                 }
             }
         },
-        mounted(){
+        beforeMount(){
             axios
                 .get("http://localhost:4400/api/movies")
                 .then((response)=>

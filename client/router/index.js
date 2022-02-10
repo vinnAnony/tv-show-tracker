@@ -15,6 +15,7 @@ import Admin from "../components/pages/admin/Admin";
 import AdminMovies from "../components/pages/admin/AdminMovies";
 import AdminUsers from "../components/pages/admin/AdminUsers";
 import AdminSubscriptions from "../components/pages/admin/AdminSubscriptions";
+import AdminGenres from "../components/pages/admin/AdminGenres";
 
 
 const routes = [
@@ -83,6 +84,11 @@ const routes = [
                 path: 'users',
                 name: 'admin-users',
                 component: Vue.component("admin-users-component",AdminUsers),
+            },
+            {
+                path: 'genres',
+                name: 'admin-genres',
+                component: Vue.component("admin-genres-component",AdminGenres),
             },
             {
                 path: 'subscriptions',

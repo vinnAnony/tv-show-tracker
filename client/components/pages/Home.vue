@@ -10,8 +10,8 @@
                 <movie :movie="movie"/>
             </div>
         </div>
+        <vue-element-loading :active="isActive" :is-full-screen="true"/>
     </div>
-
 </template>
 
 <script>
@@ -19,9 +19,10 @@
     import Movie from "../ui/Movie";
     import url from '../../api/index';
     import MovieSearchHome from "../ui/MovieSearchHome";
+    import VueElementLoading from 'vue-element-loading'
     export default {
         name: "Home",
-        components: {MovieSearchHome, Movie, MovieDetails},
+        components: {MovieSearchHome, Movie, MovieDetails,VueElementLoading},
         data(){
             return{
                 movies: {},

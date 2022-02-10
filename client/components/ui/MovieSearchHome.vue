@@ -1,11 +1,11 @@
 <template>
-   <div class="mx-2">
+   <div class="mx-2 pt-3">
        <form @submit.prevent="handleSearch">
-           <div class="relative text-gray-300 flex justify-center">
+           <div class="relative text-gray-300">
                <div>
                    <input
                            type="text"
-                           placeholder="Search any movies . . . ."
+                           placeholder="Search any movies . . ."
                            class=" w-full px-14 py-3 rounded-md bg-stone-900 border border-slate-300 focus:ring focus:ring-slate-400 focus:ring-slate-400/50 md:text-lg lg:w-3/6 lg:text-sm lg:px-10"
                            v-model="keyword"
                            @keydown.enter.prevent="handleSearch"/>

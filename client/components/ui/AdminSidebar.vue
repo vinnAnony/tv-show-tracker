@@ -56,7 +56,7 @@
                         </router-link>
                     </li>
                     <li class="items-center">
-                        <router-link :to="{name:'admin-movies'}" class="px-2 text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block">
+                        <router-link :to="{name:'admin-genres'}" class="px-2 text-blueGray-700 hover:text-purple-500 text-xs uppercase py-3 font-bold block">
                             <font-awesome-icon icon="film" class="opacity-75 mr-2 text-sm"/>
                             Genres
                         </router-link>
