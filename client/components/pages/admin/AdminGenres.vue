@@ -165,7 +165,8 @@
                     .then(response => {
                         if (response.data.success)
                         {
-                            this.genres.unshift(response.data.genre);
+                            //this.genres.unshift(response.data.genre);
+                            this.genre = {};
                             this.closeModal();
                             tvShowerAlert('success',response.data.message);
                         }
@@ -182,6 +183,7 @@
                     .then(response => {
                         if (response.data.success)
                         {
+                            this.genre = {};
                             this.closeModal();
                             tvShowerAlert('success',response.data.message);
                         }

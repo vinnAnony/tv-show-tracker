@@ -7,8 +7,8 @@
                         <ul class="hidden md:flex flex-auto space-x-2">
                             <router-link :to="{name:'home'}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Home</router-link>
-                            <router-link :to="{name:'subscriptions'}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                Subscriptions</router-link>
+<!--                            <router-link :to="{name:'subscriptions'}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">-->
+<!--                                Subscriptions</router-link>-->
                             <router-link :to="{name:'favourites'}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Favourites</router-link>
                         </ul>
@@ -37,8 +37,8 @@
                         <ul id="list" class="flex flex-col gap-1 w-full mx-2 mx-auto">
                             <router-link :to="{name:'home'}" class="px-4 py-3 text-gray-300 bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Home</router-link>
-                            <router-link :to="{name:'subscriptions'}" class="px-4 py-3 text-gray-300 bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                                Subscriptions</router-link>
+<!--                            <router-link :to="{name:'subscriptions'}" class="px-4 py-3 text-gray-300 bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">-->
+<!--                                Subscriptions</router-link>-->
                             <router-link :to="{name:'favourites'}" class="px-4 py-3 text-gray-300 bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Favourites</router-link>
                         </ul>
