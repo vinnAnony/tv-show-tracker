@@ -26,7 +26,7 @@ exports.create = [
     Subscription.create(movie)
         .then(data => {
             res.status(200).json({
-                success: true, message: 'subscription added', movie: data
+                success: true, message: 'Successfully subscribed', movie: data
             })
         })
         .catch(err => {
@@ -126,7 +126,8 @@ exports.delete = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Subscription deleted successfully!"
+                    success: true,
+                    message: "Successfully unsubscribed!"
                 });
             } else {
                 res.send({

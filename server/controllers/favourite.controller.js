@@ -25,7 +25,7 @@ exports.create = [
     Favourite.create(favourite)
         .then(data => {
             res.status(200).json({
-                success: true, message: 'Favourite added', movie: data
+                success: true, message: 'Added to favourites!', movie: data
             })
         })
         .catch(err => {
@@ -135,10 +135,12 @@ exports.delete = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Favourite deleted successfully!"
+                    success: true,
+                    message: "Removed from favourites!"
                 });
             } else {
                 res.send({
+                    success: false,
                     message: `Cannot delete favourite with id=${id}. Maybe favourite was not found!`
                 });
             }
