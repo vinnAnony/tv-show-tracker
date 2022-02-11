@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div class="w-full ">
-            <movie-search-home/>
-        </div>
         <div class="mt-7 w-full flex flex-wrap justify-center gap-2 md:gap-2 lg:gap-2">
             <div class="w-4/5 my-2 md:w-1/4 lg:w-2/12"
                  v-for="favourite_movie in favourite_movies"
