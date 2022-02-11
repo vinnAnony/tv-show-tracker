@@ -33,6 +33,11 @@
                     <font-awesome-icon icon="film" class="text-gray-400 mr-2 text-xl"/>
                     {{ movieDetails.genre.genre_name }}
                 </div>
+                <div class="md:text-center">
+                    Rating: {{movieDetails.rating}}
+                    <star-rating :show-rating="false" :star-size="20" :max-rating="5"
+                                 :increment="0.5" :rating="movieDetails.rating/2" @rating-selected ="setRating"/>
+                </div>
                 <button class="cursor-pointer ml-3" @click="toggleSubscribe(movieDetails.genre_id)"
                         :class="isSubscribed ? 'text-blue-400': ''">
                     <font-awesome-icon icon="bookmark" class="mr-2 text-2xl"/>
@@ -84,7 +89,6 @@
                             </button>
                         </form>
                     </section>
-
                 </div>
             </div>
         </div>
@@ -96,9 +100,12 @@
     import url from "../../api";
     import {mapGetters} from "vuex";
     import {tvShowerAlert} from "../../api/alerts";
+    import StarRating from 'vue-star-rating'
+
+
     export default {
         name: "MovieDetails",
-        components: {Comment},
+        components: {Comment,StarRating},
         props: {
             movieDetails: {
                 type: Object
@@ -221,6 +228,27 @@
                         }
                     });
             },
+            setRating(rating){
+                let ratingObj = {
+                    user_id: this.user.id,
+                    movie_id:this.movieDetails.id,
+                    rating:rating,
+                };
+                url.post("ratings",ratingObj)
+                    .then(response => {
+                        if (response.data.success)
+                        {
+                            tvShowerAlert('success',`You rated ${rating}`);
+                            //tvShowerAlert('success',response.data.message);
+                        }
+                    })
+                    .catch(error => {
+                        let errors = error.response.data.errors;
+                        for (const error of errors){
+                            tvShowerAlert('error',error.msg);
+                        }
+                    });
+            }
         },
         computed:{
             ...mapGetters('favMovies', {
