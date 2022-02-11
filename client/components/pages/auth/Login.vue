@@ -73,13 +73,6 @@
                     .get("user-favourites/" + user_id)
                     .then((response)=>
                     {
-                        // let favMovies= [];
-                        // for (const fMovie of response.data){
-                        //     let favMovie= [];
-                        //     console.log(fMovie)
-                        //     favMovies.movie_id = fMovie.movie_id;
-                        // }
-                        // console.log(favMovies)
                         this.$store.dispatch('favMovies/addFavMovies',response.data);
                     });
             }

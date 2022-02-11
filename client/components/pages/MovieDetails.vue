@@ -123,6 +123,8 @@
                 comments:{},
                 isFavourite:false,
                 isSubscribed:false,
+                favId:0,
+                subId:0,
             }
         },
         beforeMount(){
@@ -143,7 +145,11 @@
                 .get("user-favourites/" + this.user.id)
                 .then((response)=>
                 {
+                    console.log(response.data)
                     const checkFav = response.data.filter(movie => {
+                        if (movie.movie_id === this.movieDetails.id){
+                            this.favId = movie.id;
+                        }
                         return movie.movie_id === this.movieDetails.id
                     });
                     if (checkFav.length>0)
@@ -155,6 +161,9 @@
                 .then((response)=>
                 {
                     const checkSub = response.data.filter(genre => {
+                        if (genre.genre_id === this.movieDetails.genre_id){
+                            this.subId = genre.id;
+                        }
                         return genre.genre_id === this.movieDetails.genre_id
                     });
                     if (checkSub.length>0)
@@ -164,7 +173,23 @@
         methods: {
             toggleFavourite(id){
                 if (this.isFavourite){
-                    tvShowerAlert('success','Already in your favourites');
+                     url.delete("favourites/" +this.favId)
+                        .then(response => {
+                            if (response.data.success)
+                            {
+                                this.isFavourite = false;
+                                this.favId = 0;
+                                tvShowerAlert('success',response.data.message);
+                            }
+                        })
+                        .catch(error => {
+                            let errors = error.response.data.errors;
+                            for (const error of errors){
+                                tvShowerAlert('error',error.msg);
+                            }
+                        });
+
+                    //tvShowerAlert('success','Already in your favourites');
                 } else {
                     let fav = {
                         movie_id: id,
@@ -175,6 +200,7 @@
                             if (response.data.success)
                             {
                                 this.isFavourite = true;
+                                this.favId = response.data.movie.id;
                                 tvShowerAlert('success',response.data.message);
                             }
                         })
@@ -188,7 +214,22 @@
             },
             toggleSubscribe(id){
                 if (this.isSubscribed){
-                    tvShowerAlert('success','Already in your subscriptions');
+                    url.delete("subscriptions/" +this.subId)
+                        .then(response => {
+                            if (response.data.success)
+                            {
+                                this.isSubscribed = false;
+                                this.subId = 0;
+                                tvShowerAlert('success',response.data.message);
+                            }
+                        })
+                        .catch(error => {
+                            let errors = error.response.data.errors;
+                            for (const error of errors){
+                                tvShowerAlert('error',error.msg);
+                            }
+                        });
+                    //tvShowerAlert('success','Already in your subscriptions');
                 } else {
                     let sub = {
                         genre_id: id,
@@ -198,6 +239,7 @@
                         .then(response => {
                             if (response.data.success)
                             {
+                                this.subId = response.data.movie.id;
                                 this.isSubscribed = true;
                                 tvShowerAlert('success',response.data.message);
                             }
