@@ -16,7 +16,7 @@
 
             <ul class="md:hidden items-center flex flex-wrap list-none">
                 <li class="inline-block relative">
-                    Username
+                    {{user.username}}
                 </li>
             </ul>
 
@@ -42,7 +42,7 @@
                     </div>
                 </div>
 
-                <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+                <ul class="mt-10 md:mt-0 md:flex-col md:min-w-full flex flex-col list-none">
                     <li class="items-center">
                         <router-link :to="{name:'dashboard'}" class="px-2 text-blueGray-700 hover:text-purple-500 outline outline-offset-2 outline-blue-500 text-xs uppercase py-3 font-bold block">
                             <font-awesome-icon icon="tachometer-alt" class="opacity-75 mr-2 text-sm"/>
@@ -83,12 +83,24 @@
                         </router-link>
                     </li>
                 </ul>
+                <hr class="md:hidden my-4 md:min-w-full" />
+                <ul class="md:hidden md:flex-col md:min-w-full flex flex-col list-none">
+                    <li class="items-center">
+                        <div class="cursor-pointer px-2 text-blueGray-700 hover:text-purple-500 outline outline-offset-2 outline-blue-500 text-xs uppercase py-3 font-bold block"
+                             v-if="authState.loggedIn" @click="logOut">
+                            <font-awesome-icon icon="sign-out-alt" class="opacity-75 mr-2 text-sm"/>
+                            Logout
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "AdminSidebar",
         data() {
@@ -99,7 +111,37 @@
         methods: {
             toggleCollapseShow: function(classes) {
                 this.collapseShow = classes;
+            },
+            logOut(){
+                Vue.swal({
+                    text: "Are you sure you want to logout?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#57d675',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push('/');
+                        this.$store.dispatch('auth/logout');
+
+                        Vue.swal({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            icon: 'success',
+                            title: 'Successfully logged out.'
+                        });
+                    }
+                });
             }
+        },
+        computed:{
+            ...mapGetters('auth', {
+                authState: 'authState',
+                user: 'user'
+            })
         },
     }
 </script>
