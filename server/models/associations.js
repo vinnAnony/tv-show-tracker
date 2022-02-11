@@ -1,3 +1,4 @@
+const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require("../config/database");
 const Actor = require("../models/actor.model")(sequelize, Sequelize);
 const Comment = require("../models/comment.model")(sequelize, Sequelize);

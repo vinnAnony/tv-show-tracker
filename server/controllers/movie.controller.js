@@ -9,7 +9,9 @@ const Actor = require("../models/actor.model")(sequelize, db.Sequelize);
 const Comment = require("../models/comment.model.js")(sequelize, db.Sequelize);
 const Rating = require("../models/rating.model")(sequelize, db.Sequelize);
 const User = require("../models/user.model")(sequelize, db.Sequelize);
+const Subscription = require("../models/subscription.model")(sequelize, db.Sequelize);
 
+const sendNotification = require('../config/notification.config');
 
 exports.create = [
     body('movie_name').isLength({min: 1}).withMessage('Movie name required'),
@@ -34,17 +36,55 @@ exports.create = [
         rating: req.body.rating,
         poster_url: req.body.poster_url,
     };
-
+    let addedMovieGenreId=0;
+    let addedMovieName='';
     Movie.create(movie)
         .then(data => {
+            addedMovieGenreId = data.genre_id;
+            addedMovieName = data.movie_name;
             res.status(200).json({
                 success: true, message: 'movie added', movie: data
             })
-        })
+        }).then(() => {
+            notifySubscribers(addedMovieGenreId,addedMovieName);
+
+    })
         .catch(err => {
             console.log(err.message)
         });
 }];
+
+function notifySubscribers(genreId,movieName) {
+    let users = {};
+    Subscription.findAll({
+        where: {genre_id: genreId},
+        include: [
+            {
+                model: User,
+            },
+        ],
+        raw:true,
+    }).then(data => {
+        if (data) {
+            users = data;
+        } else {
+            //no users
+        }
+    }).then(() =>{
+        for (const user of users) {
+            console.log(user['user.email']);
+            sendNotification({
+                email: user['user.email'],
+                subject: "New Movie Released 🔥",
+                body: `Hey ya! ${movieName} is now out of the box.`
+            });
+        }
+        //notification sent
+    })
+        .catch(err => {
+            console.log(err.message);
+        });
+}
 
 exports.findAll = (req, res) => {
 
