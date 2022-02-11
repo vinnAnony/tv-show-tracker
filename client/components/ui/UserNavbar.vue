@@ -9,7 +9,7 @@
                                 Home</router-link>
 <!--                            <router-link :to="{name:'subscriptions'}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">-->
 <!--                                Subscriptions</router-link>-->
-                            <router-link :to="{name:'favourites'}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <router-link :to="{name:'favourites'}" v-if="authState.loggedIn" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Favourites</router-link>
                         </ul>
                     </div>
@@ -39,7 +39,7 @@
                                 Home</router-link>
 <!--                            <router-link :to="{name:'subscriptions'}" class="px-4 py-3 text-gray-300 bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">-->
 <!--                                Subscriptions</router-link>-->
-                            <router-link :to="{name:'favourites'}" class="px-4 py-3 text-gray-300 bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <router-link :to="{name:'favourites'}" v-if="authState.loggedIn" class="px-4 py-3 text-gray-300 bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Favourites</router-link>
                         </ul>
                     </div>
