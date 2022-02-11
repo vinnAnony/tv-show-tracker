@@ -8,6 +8,7 @@ const MovieActor = require("../models/movie_actors.model")(sequelize, db.Sequeli
 const Actor = require("../models/actor.model")(sequelize, db.Sequelize);
 const Comment = require("../models/comment.model.js")(sequelize, db.Sequelize);
 const Rating = require("../models/rating.model")(sequelize, db.Sequelize);
+const User = require("../models/user.model")(sequelize, db.Sequelize);
 
 
 exports.create = [
@@ -51,6 +52,14 @@ exports.findAll = (req, res) => {
         {
             include:[
                 {model: Genre, required: true},
+                {
+                    model: MovieActor,
+                    include: [
+                        {
+                            model: Actor,
+                        },
+                    ]
+                },
                 ]
         }
     )
@@ -93,9 +102,58 @@ exports.fetchMovieDetails = (req, res) => {
             id:id
         },
         include:[
-            {model: Genre, required: true},
-            {model: Comment, required: true},
-            {model: Rating, required: true},
+            {model: Genre},
+            {model: Comment,
+                include: [
+                    {
+                        model: User,
+                    },
+                ]
+            },
+            {model: Rating},
+            {
+                model: MovieActor,
+                include: [
+                    {
+                        model: Actor,
+                    },
+                ]
+            },
+        ]
+    })
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: `Cannot find Movie with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving movie with => " + err.message
+            });
+        });
+};
+exports.fetchGenreMovieDetails = (req, res) => {
+    const id = req.params.id;
+
+    Movie.findAll({
+        where: {
+            genre_id:id
+        },
+        include:[
+            {model: Genre},
+            {model: Comment,
+                include: [
+                    {
+                        model: User,
+                    },
+                ]
+            },
+            {model: Rating},
             {
                 model: MovieActor,
                 include: [
@@ -182,7 +240,26 @@ exports.searchMovie = (req, res) => {
     Movie.findAll(
         {
             where: { 'movie_name': { [Op.like]: '%' + keyword + '%' }
-            }
+            },
+            include:[
+                {model: Genre},
+                {model: Comment,
+                    include: [
+                        {
+                            model: User,
+                        },
+                    ]
+                },
+                {model: Rating},
+                {
+                    model: MovieActor,
+                    include: [
+                        {
+                            model: Actor,
+                        },
+                    ]
+                },
+            ]
         }
     )
         .then(data => {

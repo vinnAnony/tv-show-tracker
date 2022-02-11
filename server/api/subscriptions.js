@@ -20,6 +20,8 @@ router.route('/user-subscriptions/:id')
 router.route('/subscriptions-by-genre/:id')
     .get(subscriptionsController.findGenreSubscriptions);
 
+router.route('/dashboard-summary')
+    .get(subscriptionsController.dashboardSummary);
 //add search
 
 module.exports = router

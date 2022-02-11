@@ -2,7 +2,9 @@ const db = require("../models");
 const Favourite = db.favourites;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
-
+const sequelize = require("../config/database");
+const Movie = require("../models/movie.model.js")(sequelize, db.Sequelize);
+const Genre = require("../models/genre.model.js")(sequelize, db.Sequelize);
 
 exports.create = [
     body('movie_id').isLength({min: 1}).withMessage('Movie required'),
@@ -49,7 +51,18 @@ exports.findUserFavourites = (req, res) => {
     const id = req.params.id;
 
     Favourite.findAll({
-        where: { user_id: id }
+        where: { user_id: id },
+        include:[
+            {
+                model: Movie,
+                required: true,
+                include: [
+                    {
+                        model: Genre,
+                    },
+                ]
+            },
+            ]
     })
         .then(data => {
             if (data) {

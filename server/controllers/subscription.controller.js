@@ -2,6 +2,9 @@ const db = require("../models");
 const Subscription = db.subscriptions;
 const Op = db.Sequelize.Op;
 const {body, validationResult} = require('express-validator');
+const sequelize = require("../config/database");
+const Movie = require("../models/movie.model.js")(sequelize, db.Sequelize);
+const User = require("../models/user.model.js")(sequelize, db.Sequelize);
 
 
 exports.create = [
@@ -49,7 +52,8 @@ exports.findUserSubscriptions = (req, res) => {
     const id = req.params.id;
 
     Subscription.findAll({
-        where: { user_id: id }
+        where: { user_id: id },
+
     })
         .then(data => {
             if (data) {
@@ -62,7 +66,7 @@ exports.findUserSubscriptions = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving subscription"
+                message: "Error retrieving subscription =>" +err.message
             });
         });
 };
@@ -137,3 +141,26 @@ exports.delete = (req, res) => {
         });
 };
 
+
+exports.dashboardSummary = async (req, res) => {
+
+    const movies = await sequelize.query('SELECT COUNT(id) AS countVal FROM movies', {
+        model: Movie,
+        mapToModel: true
+    });
+    const subscriptions = await sequelize.query('SELECT COUNT(id) AS countVal FROM subscriptions', {
+        model: Subscription,
+        mapToModel: true
+    });
+    const users = await sequelize.query('SELECT COUNT(id) AS countVal FROM users', {
+        model: User,
+        mapToModel: true
+    });
+    res.send({
+        dashData:{
+            movies_count:movies[0],
+            subscriptions_count:subscriptions[0],
+            users_count:users[0],
+        }
+    });
+};

@@ -93,7 +93,8 @@ exports.update = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Genre was updated successfully."
+                    success: true,
+                    message: "Genre updated successfully."
                 });
             } else {
                 res.send({
@@ -117,6 +118,7 @@ exports.delete = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
+                    success: true,
                     message: "Genre deleted successfully!"
                 });
             } else {

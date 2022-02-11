@@ -20,6 +20,9 @@ router.route('/movies/:id')
 router.route('/movies-details/:id')
     .get(moviesController.fetchMovieDetails);
 
+router.route('/genre-movies/:id')
+    .get(moviesController.fetchGenreMovieDetails);
+
 router.route('/movie-search/')
     .get(moviesController.searchMovie);
 

@@ -60,11 +60,13 @@ exports.login = [
                 if (data) {
                     let isValidated = bcrypt.compareSync(logPassword, data.password);
                     if (isValidated){
+                        let authority = !!2;
                         let user = {
                             id: data.id,
                             name: data.full_name,
                             username: data.user_name,
                             email: data.email,
+                            isAdmin: authority
                         };
                         const accessToken = jwt.sign({user}, uuidv4());
                         res.status(200).json({
@@ -124,7 +126,7 @@ exports.update = (req, res) => {
             } else {
                 res.send({
                     success: false,
-                    message: `Cannot update user with id=${id}.`
+                    message: `User does not exist.`
                 });
             }
         })
