@@ -1,5 +1,6 @@
 <template>
     <div>
+        <user-navbar/>
         <router-view>
 
         </router-view>
@@ -8,8 +9,10 @@
 </template>
 
 <script>
+    import UserNavbar from "../ui/UserNavbar";
     export default {
-        name: "App",
+        name: "Index",
+        components: {UserNavbar}
     }
 </script>
 
